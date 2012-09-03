@@ -31,7 +31,7 @@ It'll hash all theses criterias with a secret defined on `security.yml`, example
                 replay_protection:
                     enabled:   true
                     lifetime:  600
-                    parameter: _signature_time
+                    parameter: _signature_ttl
 
 ```
 
