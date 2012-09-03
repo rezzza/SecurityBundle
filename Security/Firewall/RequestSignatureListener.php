@@ -43,12 +43,12 @@ class RequestSignatureListener implements ListenerInterface
         }
 
         $request   = $event->getRequest();
-        $parameter = $request->get($this->entryPoint->get('parameter'));
-        if (null !== $request->get($parameter)) {
+        $parameter = $this->entryPoint->get('parameter');
+        if (null !== $signature = $request->get($parameter)) {
 
             $token = new RequestSignatureToken();
             $token->request   = $request;
-            $token->signature = $request->get($parameter);
+            $token->signature = $signature;
 
             if ($this->entryPoint->get('replay_protection')) {
                 $token->signatureLifetime = $request->get($this->entryPoint->get('replay_protection_parameter'));
