@@ -12,12 +12,6 @@
     </parameters>
 
     <services>
-                <service id="security.authentication.listener.form"
-                                     class="%security.authentication.listener.form.class%"
-                                                      parent="security.authentication.listener.abstract"
-                                                                       abstract="true">
-                                                                               </service>
-
         <service id="rezzza.security.request_signature.builder" class="%rezzza.security.request_signature.builder.class%" public="false" />
 
         <service id="rezzza.security.request_signature.provider" class="%rezzza.security.request_signature.provider.class%" public="false">
@@ -27,6 +21,7 @@
         <service id="rezzza.security.request_signature.listener" class="%rezzza.security.request_signature.listener.class%" public="false">
             <argument type="service" id="security.context"/>
             <argument type="service" id="security.authentication.manager" />
+            <argument type="service" id="logger" on-invalid="null" />
         </service>
 
         <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" public="false" />

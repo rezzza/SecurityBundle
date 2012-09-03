@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
  * RequestSignatureListener
@@ -24,10 +25,17 @@ class RequestSignatureListener implements ListenerInterface
     protected $authenticationManager;
     protected $entryPoint;
 
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, RequestSignatureEntryPoint $entryPoint)
+    /**
+     * @param SecurityContextInterface       $securityContext       securityContext
+     * @param AuthenticationManagerInterface $authenticationManager authenticationManager
+     * @param LoggerInterface                $logger                logger
+     * @param RequestSignatureEntryPoint     $entryPoint            entryPoint
+     */
+    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger, RequestSignatureEntryPoint $entryPoint)
     {
         $this->securityContext       = $securityContext;
         $this->authenticationManager = $authenticationManager;
+        $this->logger                = $logger;
         $this->entryPoint            = $entryPoint;
     }
 
@@ -63,7 +71,7 @@ class RequestSignatureListener implements ListenerInterface
                     return $event->setResponse($returnValue);
                 }
             } catch (AuthenticationException $e) {
-                // you might log something here
+                $this->logger->info(sprintf('Authentication request failed: %s', $e->getMessage()));
             }
         }
 
