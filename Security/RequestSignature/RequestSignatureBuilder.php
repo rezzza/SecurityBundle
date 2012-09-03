@@ -27,7 +27,7 @@ class RequestSignatureBuilder
         $payload   = array();
 
         if ($entryPoint->get('replay_protection')) {
-            $payload[] = $token->signatureLifetime;
+            $payload[] = $token->signatureTime;
         }
 
         $payload[] = $request->server->get('REQUEST_METHOD');
@@ -35,7 +35,7 @@ class RequestSignatureBuilder
         $payload[] = $request->getPathInfo();
         $payload[] = $request->getContent();
 
-        $payload   = implode('-', array_filter($payload));
+        $payload   = implode("\n", array_filter($payload));
 
         $this->signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
         $this->ttl       = $entryPoint->get('replay_protection_lifetime');
@@ -58,7 +58,7 @@ class RequestSignatureBuilder
      */
     public function hasExpired(TokenInterface $token)
     {
-        $date = $token->signatureLifetime;
+        $date = $token->signatureTime;
 
         if (!is_numeric($date)) {
             return true;

@@ -14,7 +14,7 @@ class RequestSignatureToken extends AbstractToken
 {
     public $request;
     public $signature;
-    public $signatureLifetime;
+    public $signatureTime;
 
     /**
      * {@inheritdoc}
