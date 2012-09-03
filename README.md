@@ -6,6 +6,7 @@ SecurityBundle
 It'll validate a signature send by client in query string (later on headers), this signature can have a lifetime.
 
 Criterias are:
+
     - Time send on signature (if replay_protection activated)
     - RequestMethod
     - http host
