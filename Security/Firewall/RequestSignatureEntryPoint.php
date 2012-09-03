@@ -16,7 +16,7 @@ class RequestSignatureEntryPoint
      */
     public function __construct(array $config)
     {
-        $this->datas['algorythm']                   = $config['algorythm'];
+        $this->datas['algorithm']                   = $config['algorithm'];
         $this->datas['secret']                      = $config['secret'];
         $this->datas['ignore']                      = $config['ignore'];
         $this->datas['parameter']                   = $config['parameter'];

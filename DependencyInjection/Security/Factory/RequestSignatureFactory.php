@@ -56,7 +56,7 @@ class RequestSignatureFactory implements SecurityFactoryInterface
     public function addConfiguration(NodeDefinition $node)
     {
         $node->children()
-            ->scalarNode('algorythm')->defaultValue('SHA1')->cannotBeEmpty()->end()
+            ->scalarNode('algorithm')->defaultValue('SHA1')->cannotBeEmpty()->end()
             ->scalarNode('secret')->isRequired()->cannotBeEmpty()->end()
             ->booleanNode('ignore')->defaultFalse()->end()
             ->scalarNode('parameter')->defaultValue('_signature')->cannotBeEmpty()->end()
