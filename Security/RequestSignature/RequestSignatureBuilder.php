@@ -35,7 +35,7 @@ class RequestSignatureBuilder
         $payload[] = $request->getPathInfo();
         $payload[] = $request->getContent();
 
-        $payload   = implode("\n", array_filter($payload));
+        $payload   = implode("\n", $payload);
 
         $this->signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
         $this->ttl       = $entryPoint->get('replay_protection_lifetime');
