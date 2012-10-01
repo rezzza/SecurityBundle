@@ -16,5 +16,10 @@
     "autoload":     {
         "psr-0": { "Rezzza\\SecurityBundle": "" }
     },
-    "target-dir": "Rezzza/SecurityBundle"
+    "target-dir": "Rezzza/SecurityBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
