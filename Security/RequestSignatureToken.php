@@ -2,7 +2,6 @@
 
 namespace Rezzza\SecurityBundle\Security;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
