@@ -47,6 +47,7 @@ class RequestSignatureListener implements ListenerInterface
             }
 
             $this->securityContext->setToken(new AnonymousToken('request_signature', 'anon.', array()));
+
             return;
         }
 
