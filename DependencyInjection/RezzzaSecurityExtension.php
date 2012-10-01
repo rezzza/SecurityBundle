@@ -21,10 +21,7 @@ class RezzzaSecurityExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor = new Processor();
-        $config    = $processor->processConfiguration(new Configuration(), $configs);
-
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
-        //$loader->load('security.xml');
+        $loader->load('security.xml');
     }
 }

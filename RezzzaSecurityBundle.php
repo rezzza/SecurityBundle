@@ -2,6 +2,7 @@
 
 namespace Rezzza\SecurityBundle;
 
+use Rezzza\SecurityBundle\DependencyInjection\Security\Factory\RequestSignatureFactory;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -13,4 +14,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class RezzzaSecurityBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new RequestSignatureFactory());
+    }
 }
