@@ -96,13 +96,13 @@ rezzza_security:
             # algorithm:        'SHA1' default
             secret:            'IseeDeadPeopleEverywhere'
             # replay_protection: true # default
-
 ```
 
 And then:
 
 ```php
 $context = $this->get('rezzza.security.firewall.my_firewall.context')
+    ->set('request.method', 'GET')
     ->set('request.host', 'subdomain.domain.tld')
     ->set('request.path_info', '/path/to/resources')
     ->set('request.signature_time', time());
