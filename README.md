@@ -113,6 +113,5 @@ $signature = $builder->build($context);
 
 # WishList
 
-- Having configuration to define distant firewall to easily build signatures.
 - QueryString or HTTP Headers
 - Unit Tests with atoum
