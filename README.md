@@ -8,7 +8,6 @@ SecurityBundle
 ```json
     "require": {
         'rezzza/security-bundle': '1.*',
-        ....
     }
 ```
 
@@ -74,12 +73,12 @@ $context->set('request.method', 'GET')
     ->set('firewall.secret', 'secretDefinedOnFirewall')
     ;
 
-$builder = $this->get('rezzza.security.request_signature.builder');
+$builder   = $this->get('rezzza.security.request_signature.builder');
 $signature = $builder->build($context);
 ```
 
-
 # WishList
 
+- Having configuration to define distant firewall to easily build signatures.
 - QueryString or HTTP Headers
 - Unit Tests with atoum
