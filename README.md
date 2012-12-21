@@ -64,12 +64,18 @@ Build the signature:
 ```php
 use \Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
 
-$entryPoint = $this->get('rezzza.security.request_signature.entry_point.api');  // api is the name of firewall.
-$builder    = $this->get('rezzza.security.request_signature.builder');
+$context = new \Rezzza\SecurityBundle\Security\Firewall\Context();
+$context->set('request.method', 'GET')
+    ->set('request.host', 'subdomain.domain.tld')
+    ->set('request.path_info', '/path/to/resources')
+    ->set('request.signature_time', time())
+    ->set('firewall.replay_protection', 'replayProtectionDefinedOnFirewall')
+    ->set('firewall.algorithm', 'algorithmDefinedOnFirewall')
+    ->set('firewall.secret', 'secretDefinedOnFirewall')
+    ;
 
-// create accepts 5 arguments: method, host, pathInfo, content, time where the request is executed (default time())
-$dataCollector = RequestDataCollector::create('GET', 'subdomain.domain.tld', '/path/to/resources.format');
-$signature     = $builder->build($dataCollector, $entryPoint);
+$builder = $this->get('rezzza.security.request_signature.builder');
+$signature = $builder->build($context);
 ```
 
 

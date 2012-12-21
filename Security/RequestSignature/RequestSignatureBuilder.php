@@ -2,8 +2,7 @@
 
 namespace Rezzza\SecurityBundle\Security\RequestSignature;
 
-use Rezzza\SecurityBundle\Security\Firewall\RequestSignatureEntryPoint;
-use Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
+use Rezzza\SecurityBundle\Security\Firewall\Context;
 
 /**
  * RequestSignatureBuilder
@@ -13,26 +12,27 @@ use Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
 class RequestSignatureBuilder
 {
     /**
-     * @param RequestDataCollector       $collector  collector
-     * @param RequestSignatureEntryPoint $entryPoint entryPoint
+     * @param Context $context context
+     *
+     * @return string
      */
-    public function build(RequestDataCollector $collector, RequestSignatureEntryPoint $entryPoint)
+    public function build(Context $context)
     {
         $payload   = array();
 
-        if ($entryPoint->get('replay_protection')) {
-            $payload[] = $collector->signatureTime;
+        if ($context->get('firewall.replay_protection', false)) {
+            $payload[] = $context->get('request.signature_time', time());
         }
 
-        $payload[] = $collector->requestMethod;
-        $payload[] = $collector->httpHost;
-        $payload[] = $collector->pathInfo;
-        $payload[] = $collector->content;
+        $payload[] = strtoupper($context->get('request.method'));
+        $payload[] = $context->get('request.host');
+        $payload[] = $context->get('request.path_info');
+        $payload[] = $context->get('request.content');
 
-        $payload   = implode("\n", $payload);
-
-        $signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
-
-        return $signature;
+        return hash_hmac(
+            $context->get('firewall.algorithm', 'sha1'),
+            implode("\n", $payload),
+            $context->get('firewall.secret')
+        );
     }
 }

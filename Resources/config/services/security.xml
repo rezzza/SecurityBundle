@@ -24,7 +24,7 @@
             <argument type="service" id="logger" on-invalid="null" />
         </service>
 
-        <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" />
+        <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" public="false" />
     </services>
 
 </container>
