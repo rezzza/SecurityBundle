@@ -12,7 +12,7 @@
     </parameters>
 
     <services>
-        <service id="rezzza.security.request_signature.builder" class="%rezzza.security.request_signature.builder.class%" public="false" />
+        <service id="rezzza.security.request_signature.builder" class="%rezzza.security.request_signature.builder.class%"/>
 
         <service id="rezzza.security.request_signature.provider" class="%rezzza.security.request_signature.provider.class%" public="false">
             <argument type="service" id="rezzza.security.request_signature.builder" />
@@ -24,7 +24,7 @@
             <argument type="service" id="logger" on-invalid="null" />
         </service>
 
-        <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" public="false" />
+        <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" />
     </services>
 
 </container>

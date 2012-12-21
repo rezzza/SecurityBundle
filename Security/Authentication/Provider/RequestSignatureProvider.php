@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
 use Rezzza\SecurityBundle\Security\RequestSignature\RequestSignatureBuilder;
 use Rezzza\SecurityBundle\Security\Firewall\RequestSignatureEntryPoint;
+use Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
 
 /**
  * RequestSignatureProvider
@@ -46,7 +47,9 @@ class RequestSignatureProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        list($signature, $ttl) = $this->builder->build($token, $this->entryPoint);
+        $dataCollector = RequestDataCollector::buildFromToken($token);
+
+        $signature = $this->builder->build($dataCollector, $this->entryPoint);
 
         if ($signature != $token->signature) {
             throw new AuthenticationException('Invalid signature');
@@ -59,7 +62,7 @@ class RequestSignatureProvider implements AuthenticationProviderInterface
                 throw new NonceExpiredException('Signature ttl is not valid');
             }
 
-            if ($ttl < abs(time() - $date)) {
+            if ($this->entryPoint->get('replay_protection_lifetime') < abs(time() - $date)) {
                 throw new NonceExpiredException('Signature has expired');
             }
         }

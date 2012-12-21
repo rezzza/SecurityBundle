@@ -2,9 +2,8 @@
 
 namespace Rezzza\SecurityBundle\Security\RequestSignature;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Rezzza\SecurityBundle\Security\Firewall\RequestSignatureEntryPoint;
+use Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
 
 /**
  * RequestSignatureBuilder
@@ -13,33 +12,27 @@ use Rezzza\SecurityBundle\Security\Firewall\RequestSignatureEntryPoint;
  */
 class RequestSignatureBuilder
 {
-    private $signature;
-    private $ttl;
-
     /**
-     * @param TokenInterface             $token      token
+     * @param RequestDataCollector       $collector  collector
      * @param RequestSignatureEntryPoint $entryPoint entryPoint
      */
-    public function build(TokenInterface $token, RequestSignatureEntryPoint $entryPoint)
+    public function build(RequestDataCollector $collector, RequestSignatureEntryPoint $entryPoint)
     {
-        $request = $token->request;
-
         $payload   = array();
 
         if ($entryPoint->get('replay_protection')) {
-            $payload[] = $token->signatureTime;
+            $payload[] = $collector->signatureTime;
         }
 
-        $payload[] = $request->server->get('REQUEST_METHOD');
-        $payload[] = $request->server->get('HTTP_HOST');
-        $payload[] = $request->getPathInfo();
-        $payload[] = $request->getContent();
+        $payload[] = $collector->requestMethod;
+        $payload[] = $collector->httpHost;
+        $payload[] = $collector->pathInfo;
+        $payload[] = $collector->content;
 
         $payload   = implode("\n", $payload);
 
         $signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
-        $ttl       = $entryPoint->get('replay_protection_lifetime');
 
-        return array($signature, $ttl);
+        return $signature;
     }
 }
