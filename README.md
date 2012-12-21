@@ -23,6 +23,16 @@ In `AppKernel`:
     );
 ```
 
+## On symfony 2.0
+
+Add factory to your `security.yml`
+
+```yml
+security:
+    factories:
+        - "%kernel.root_dir%/../vendor/bundles/Rezzza/SecurityBundle/Resources/config/services/security.xml"
+```
+
 # Request signature checker
 
 Validate a signature sent by client in query string, this signature can have a lifetime.

@@ -25,6 +25,11 @@
         </service>
 
         <service id="rezzza.security.request_signature.entry_point" class="%rezzza.security.request_signature.entry_point.class%" public="false" />
+
+        <!--- for 2.0 -->
+        <service id="rezzza.security.request_signature.factory" class="Rezzza\SecurityBundle\DependencyInjection\Security\Factory\RequestSignatureFactory">
+            <tag name="security.listener.factory" />
+        </service>
     </services>
 
 </container>

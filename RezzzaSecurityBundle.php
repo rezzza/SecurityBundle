@@ -22,6 +22,9 @@ class RezzzaSecurityBundle extends Bundle
         parent::build($container);
 
         $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new RequestSignatureFactory());
+
+        if (method_exists($extension, 'addSecurityListenerFactory')) {
+            $extension->addSecurityListenerFactory(new RequestSignatureFactory());
+        }
     }
 }
