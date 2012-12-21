@@ -87,6 +87,30 @@ $builder   = $this->get('rezzza.security.request_signature.builder');
 $signature = $builder->build($context);
 ```
 
+You can define distant firewall on a config:
+
+```yml
+rezzza_security:
+    firewalls:
+        my_firewall:
+            # algorithm:        'SHA1' default
+            secret:            'IseeDeadPeopleEverywhere'
+            # replay_protection: true # default
+
+```
+
+And then:
+
+```php
+$context = $this->get('rezzza.security.firewall.my_firewall.context')
+    ->set('request.host', 'subdomain.domain.tld')
+    ->set('request.path_info', '/path/to/resources')
+    ->set('request.signature_time', time());
+
+$builder   = $this->get('rezzza.security.request_signature.builder');
+$signature = $builder->build($context);
+```
+
 # WishList
 
 - Having configuration to define distant firewall to easily build signatures.
