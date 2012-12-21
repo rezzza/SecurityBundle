@@ -46,14 +46,22 @@ class RequestSignatureProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        $this->builder->build($token, $this->entryPoint);
+        list($signature, $ttl) = $this->builder->build($token, $this->entryPoint);
 
-        if (!$this->builder->signatureEquals($token)) {
+        if ($signature != $token->signature) {
             throw new AuthenticationException('Invalid signature');
         }
 
-        if ($this->entryPoint->get('replay_protection') && $this->builder->hasExpired($token)) {
-            throw new NonceExpiredException('Signature has expired');
+        if ($this->entryPoint->get('replay_protection')) {
+            $date = $token->signatureTime;
+
+            if (!is_numeric($date)) {
+                throw new NonceExpiredException('Signature ttl is not valid');
+            }
+
+            if ($ttl < abs(time() - $date)) {
+                throw new NonceExpiredException('Signature has expired');
+            }
         }
 
         return $token;

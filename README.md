@@ -1,9 +1,32 @@
 SecurityBundle
 ==============
 
+# Installation
+
+## With Composer
+
+```json
+    "require": {
+        'rezzza/security-bundle': '1.*',
+        ....
+    }
+```
+
+## Enable Bundle
+
+In `AppKernel`:
+
+```php
+    $bundles = array(
+        //....
+        new Rezzza\SecurityBundle\RezzzaSecurityBundle(),
+        //....
+    );
+```
+
 # Request signature checker
 
-It'll validate a signature send by client in query string (later on headers), this signature can have a lifetime.
+Validate a signature sent by client in query string, this signature can have a lifetime.
 
 Criterias are:
 
@@ -11,7 +34,7 @@ Criterias are:
     - RequestMethod
     - http host
     - path info
-    - content (query string are not part of this)
+    - content - RAW_DATA (query string has not this information)
 
 It'll hash all theses criterias with a secret defined on `security.yml`, example:
 
@@ -40,4 +63,4 @@ It'll hash all theses criterias with a secret defined on `security.yml`, example
 # WishList
 
 - QueryString or HTTP Headers
-- Unit Tests
+- Unit Tests with atoum

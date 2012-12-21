@@ -37,33 +37,9 @@ class RequestSignatureBuilder
 
         $payload   = implode("\n", $payload);
 
-        $this->signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
-        $this->ttl       = $entryPoint->get('replay_protection_lifetime');
-    }
+        $signature = hash_hmac($entryPoint->get('algorithm'), $payload, $entryPoint->get('secret'));
+        $ttl       = $entryPoint->get('replay_protection_lifetime');
 
-    /**
-     * @param TokenInterface $token token
-     *
-     * @return boolean
-     */
-    public function signatureEquals(TokenInterface $token)
-    {
-        return $token->signature === $this->signature;
-    }
-
-    /**
-     * @param TokenInterface $token token
-     *
-     * @return boolean
-     */
-    public function hasExpired(TokenInterface $token)
-    {
-        $date = $token->signatureTime;
-
-        if (!is_numeric($date)) {
-            return true;
-        }
-
-        return $this->ttl < abs(time() - $date);
+        return array($signature, $ttl);
     }
 }
