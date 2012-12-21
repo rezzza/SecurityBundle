@@ -23,7 +23,8 @@ class RezzzaSecurityBundle extends Bundle
 
         $extension = $container->getExtension('security');
 
-        if (method_exists($extension, 'addSecurityListenerFactory')) {
+        // 2.0 does not support this.
+        if (method_exists('\Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension', 'addSecurityListenerFactory')) {
             $extension->addSecurityListenerFactory(new RequestSignatureFactory());
         }
     }
