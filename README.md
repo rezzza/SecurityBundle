@@ -43,7 +43,7 @@ Criterias are:
 - RequestMethod
 - http host
 - path info
-- content - RAW_DATA (query string has not this information)
+- content - RAW_DATA (posted fields)
 
 It'll hash all theses criterias with a secret defined on `security.yml`, example:
 
@@ -102,10 +102,11 @@ And then:
 
 ```php
 $context = $this->get('rezzza.security.firewall.my_firewall.context')
-    ->set('request.method', 'GET')
+    ->set('request.method', 'POST')
     ->set('request.host', 'subdomain.domain.tld')
     ->set('request.path_info', '/path/to/resources')
-    ->set('request.signature_time', time());
+    ->set('request.signature_time', time())
+    ->set('request.content', 'myfield=myresult&my......');
 
 $builder   = $this->get('rezzza.security.request_signature.builder');
 $signature = $builder->build($context);

@@ -27,7 +27,7 @@ class Context
         $this->set('request.method', $request->server->get('REQUEST_METHOD'));
         $this->set('request.host', $request->server->get('HTTP_HOST'));
         $this->set('request.path_info', $request->getPathInfo());
-        $this->set('request.content', $request->getContent());
+        $this->set('request.content', rawurldecode($request->getContent()));
         $this->set('request.signature_time', $token->signatureTime);
     }
 
