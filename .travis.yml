@@ -1,0 +1,18 @@
+language: php
+
+php:
+    - 5.3
+
+before_script:
+    - wget http://getcomposer.org/composer.phar
+    - php composer.phar install --dev --prefer-source
+
+script:
+    - bin/atoum
+
+notifications:
+    email:
+        recipients:
+            - ci@verylastroom.com
+        on_success: change
+        on_failure: change

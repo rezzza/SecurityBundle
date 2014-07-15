@@ -1,6 +1,8 @@
 SecurityBundle
 ==============
 
+[![Build Status](https://travis-ci.com/rezzza/SecurityBundle.png)](https://travis-ci.com/#!/rezzza/SecurityBundle)
+
 # Installation
 
 ## With Composer
@@ -71,8 +73,6 @@ It'll hash all theses criterias with a secret defined on `security.yml`, example
 Build the signature:
 
 ```php
-use \Rezzza\SecurityBundle\Security\Authentication\RequestDataCollector;
-
 $context = new \Rezzza\SecurityBundle\Security\Firewall\Context();
 $context->set('request.method', 'GET')
     ->set('request.host', 'subdomain.domain.tld')
@@ -111,6 +111,59 @@ $context = $this->get('rezzza.security.firewall.my_firewall.context')
 $builder   = $this->get('rezzza.security.request_signature.builder');
 $signature = $builder->build($context);
 ```
+
+# Obfuscate request
+
+If you have critical data coming on your application, you may not want to expose them into symfony profiler. You can easily define which data will not appear on this one on each routes.
+
+```
+rezzza_security:
+    request_obfuscator:
+        enabled: 1
+```
+
+In your route:
+
+```
+
+use \Rezzza\SecurityBundle\Controller\Annotations\ObfuscateRequest;
+
+/**
+ * @ObfuscateRequest()
+ */
+public function indexAction(Request $request)
+{
+}
+```
+
+Will obfuscate all datas on symfony profiler.
+
+```
+@obfuscate("content=*") // obfuscate $request->getContent()
+@obfuscate("headers={'foobar'}") // obfuscate $request->headers->get('foobar')
+@obfuscate("request_request={"customer[password]"}") // obfuscate $request->request->get('customer')['password']
+```
+
+Keys to obfuscate are:
+
+- format
+- content
+- content_type
+- status_text
+- status_code
+- request_query ($_GET)
+- request_request ($_POST)
+- request_headers ($_HEADER)
+- request_server ($_SERVER)
+- request_cookies ($_COOKIES)
+- request_attributes ($request->attributes)
+- response_headers
+- session_metadata
+- session_attributes
+- flashes
+- path_info
+- controller
+- locale
 
 # WishList
 

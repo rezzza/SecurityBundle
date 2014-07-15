@@ -3,6 +3,7 @@
 namespace Rezzza\SecurityBundle;
 
 use Rezzza\SecurityBundle\DependencyInjection\Security\Factory\RequestSignatureFactory;
+use Rezzza\SecurityBundle\DependencyInjection\Compiler;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -27,5 +28,7 @@ class RezzzaSecurityBundle extends Bundle
         if (method_exists('\Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension', 'addSecurityListenerFactory')) {
             $extension->addSecurityListenerFactory(new RequestSignatureFactory());
         }
+
+        $container->addCompilerPass(new Compiler\ObfuscatorCompilerPass());
     }
 }
