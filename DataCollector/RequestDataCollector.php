@@ -46,12 +46,10 @@ class RequestDataCollector extends BaseRequestDataCollector
 
         $class            = new \ReflectionClass($controller[0]);
         $reflectionMethod = $class->getMethod($controller[1]);
-        $annotations      = $this->annotationReader->getMethodAnnotations($reflectionMethod);
+        $annotation       = $this->annotationReader->getMethodAnnotation($reflectionMethod, '\Rezzza\SecurityBundle\Controller\Annotations\ObfuscateRequest');
 
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof ObfuscateRequest) {
-                $this->data = $this->obfuscator->obfuscate($this->data, $annotation->getObfuscatedPatterns());
-            }
+        if ($annotation) {
+            $this->data = $this->obfuscator->obfuscate($this->data, $annotation->getObfuscatedPatterns());
         }
     }
 }

@@ -6,12 +6,12 @@ use mageekguy\atoum;
 use Rezzza\SecurityBundle\Request\Obfuscator\Obfuscator as TestedClass;
 
 /**
- * Obfuscator
+ * RequestObfuscator
  *
  * @uses atoum\test
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Obfuscator extends atoum\test
+class RequestObfuscator extends atoum\test
 {
     public function dataProviderObfuscate()
     {

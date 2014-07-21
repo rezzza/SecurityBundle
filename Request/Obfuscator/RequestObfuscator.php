@@ -5,12 +5,12 @@ namespace Rezzza\SecurityBundle\Request\Obfuscator;
 use Rezzza\SecurityBundle\Exception\ObfuscateBadPatternException;
 
 /**
- * Obfuscator
+ * RequestObfuscator
  *
  * @uses ObfuscatorInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Obfuscator implements ObfuscatorInterface
+class RequestObfuscator implements ObfuscatorInterface
 {
     CONST TOKEN_REPLACE = 'X';
     CONST TOKEN_ALL = '*';

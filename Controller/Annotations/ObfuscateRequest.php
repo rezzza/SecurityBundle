@@ -19,7 +19,7 @@ class ObfuscateRequest
     /**
      * @param array $data data
      */
-    public function __construct($obfuscatedPatterns)
+    public function __construct(array $obfuscatedPatterns)
     {
         $this->obfuscatedPatterns = $obfuscatedPatterns;
     }
