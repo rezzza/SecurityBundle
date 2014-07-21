@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="rezzza.security.request_obfuscator.obfuscator.class">Rezzza\SecurityBundle\Request\Obfuscator\RequestObfuscator</parameter>
+    </parameters>
+
+    <services>
+        <service id="rezzza.security.request_obfuscator.obfuscator" class="%rezzza.security.request_obfuscator.obfuscator.class%"/>
+    </services>
+
+</container>

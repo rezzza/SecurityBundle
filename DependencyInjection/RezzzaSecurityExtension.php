@@ -29,7 +29,14 @@ class RezzzaSecurityExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+
         $loader->load('security.xml');
+
+        $container->setParameter('rezzza.security.request_obfuscator.enabled', $config['request_obfuscator']['enabled']);
+
+        if ($container->getParameter('rezzza.security.request_obfuscator.enabled')) {
+            $loader->load('request_obfuscator.xml');
+        }
 
         $firewalls = $config['firewalls'];
 

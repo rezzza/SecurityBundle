@@ -25,6 +25,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('request_obfuscator')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('firewalls')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
