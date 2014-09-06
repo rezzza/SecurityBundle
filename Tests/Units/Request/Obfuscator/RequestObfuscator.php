@@ -3,7 +3,7 @@
 namespace Rezzza\SecurityBundle\Tests\Units\Request\Obfuscator;
 
 use mageekguy\atoum;
-use Rezzza\SecurityBundle\Request\Obfuscator\Obfuscator as TestedClass;
+use Rezzza\SecurityBundle\Request\Obfuscator\RequestObfuscator as TestedClass;
 
 /**
  * RequestObfuscator
