@@ -2,9 +2,7 @@ SecurityBundle
 ==============
 
 [![Build Status](https://travis-ci.org/rezzza/SecurityBundle.svg?branch=master)](https://travis-ci.org/rezzza/SecurityBundle)
-
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/?branch=master)
-
 [![Code Coverage](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/?branch=master)
 
 # Installation
