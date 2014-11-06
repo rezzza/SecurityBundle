@@ -1,3 +1,4 @@
 bin
 composer.lock
 vendor
+features/bootstrap/app/cache

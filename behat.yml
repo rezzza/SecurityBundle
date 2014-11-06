@@ -1,0 +1,25 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext:
+                    signatureBuilder: @rezzza.security.request_signature.builder
+                    firewallContext: @rezzza.security.firewall.demo.context
+                - Behat\MinkExtension\Context\MinkContext
+
+    translation:
+        locale: en
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/app/autoload.php
+                path: features/bootstrap/app/AppKernel.php
+                class: AppKernel
+                env: test
+                debug: true
+        Behat\MinkExtension:
+            base_url:  'http://security-bundle.vlr.localtest'
+            sessions:
+                default:
+                    goutte: ~
