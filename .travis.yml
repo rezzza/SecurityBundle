@@ -13,8 +13,12 @@ php:
 install:
     - composer install --dev --prefer-source
 
+before_script:
+    - php -S localhost:8888 -t features/bootstrap/web 2> /dev/null &
+
 script:
     - bin/atoum
+    - bin/behat -f progress
 
 notifications:
     email:

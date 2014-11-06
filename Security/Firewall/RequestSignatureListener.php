@@ -31,7 +31,7 @@ class RequestSignatureListener implements ListenerInterface
      * @param LoggerInterface                $logger                logger
      * @param RequestSignatureEntryPoint     $entryPoint            entryPoint
      */
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger, RequestSignatureEntryPoint $entryPoint)
+    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger = null, RequestSignatureEntryPoint $entryPoint = null)
     {
         $this->securityContext       = $securityContext;
         $this->authenticationManager = $authenticationManager;
@@ -53,6 +53,7 @@ class RequestSignatureListener implements ListenerInterface
 
         $request   = $event->getRequest();
         $parameter = $this->entryPoint->get('parameter');
+
         if (null !== $signature = $request->get($parameter)) {
 
             $token = new RequestSignatureToken();
@@ -68,11 +69,15 @@ class RequestSignatureListener implements ListenerInterface
 
                 if ($returnValue instanceof TokenInterface) {
                     return $this->securityContext->setToken($returnValue);
-                } elseif ($returnValue instanceof Response) {
+                }
+
+                if ($returnValue instanceof Response) {
                     return $event->setResponse($returnValue);
                 }
             } catch (AuthenticationException $e) {
-                $this->logger->info(sprintf('Authentication request failed: %s', $e->getMessage()));
+                if ($this->logger) {
+                    $this->logger->info(sprintf('Authentication request failed: %s', $e->getMessage()));
+                }
             }
         }
 

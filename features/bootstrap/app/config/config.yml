@@ -1,0 +1,22 @@
+imports:
+    - { resource: security.yml }
+#    - { resource: parameters.yml }
+
+framework:
+    secret: test_blah
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: "%kernel.debug%"
+    form: false
+    csrf_protection: true
+    validation: false
+    default_locale: en
+    trusted_proxies: ~
+    session: ~
+
+rezzza_security:
+    firewalls:
+        demo:
+            algorithm:         SHA1
+            secret:            MyS3cr3t
+            replay_protection: true
