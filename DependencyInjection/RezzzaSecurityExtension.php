@@ -47,7 +47,7 @@ class RezzzaSecurityExtension extends Extension
             $definition->addMethodCall('set', array('firewall.replay_protection', $data['replay_protection']));
             $definition->addMethodCall('set', array('firewall.algorithm', $data['algorithm']));
             $definition->addMethodCall('set', array('firewall.secret', $data['secret']));
-            $definition->setScope('prototype');
+            //$definition->setScope('prototype');
 
             $container->setDefinition($serviceName, $definition);
         }
