@@ -3,8 +3,7 @@ default:
         default:
             contexts:
                 - FeatureContext:
-                    signatureBuilder: @rezzza.security.request_signature.builder
-                    firewallContext: @rezzza.security.firewall.demo.context
+                    signatureConfig: @rezzza.security.signature_config.demo
                 - Behat\MinkExtension\Context\MinkContext
 
     translation:

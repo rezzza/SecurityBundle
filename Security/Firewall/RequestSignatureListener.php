@@ -23,25 +23,28 @@ class RequestSignatureListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
-    protected $entryPoint;
+    protected $signatureQueryParameters;
+    protected $ignored;
+    protected $logger;
 
-    /**
-     * @param SecurityContextInterface       $securityContext       securityContext
-     * @param AuthenticationManagerInterface $authenticationManager authenticationManager
-     * @param LoggerInterface                $logger                logger
-     * @param RequestSignatureEntryPoint     $entryPoint            entryPoint
-     */
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger = null, RequestSignatureEntryPoint $entryPoint = null)
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        AuthenticationManagerInterface $authenticationManager,
+        SignatureQueryParameters $signatureQueryParameters,
+        $ignored,
+        LoggerInterface $logger = null
+    )
     {
-        $this->securityContext       = $securityContext;
+        $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
-        $this->logger                = $logger;
-        $this->entryPoint            = $entryPoint;
+        $this->signatureQueryParameters = $signatureQueryParameters;
+        $this->ignored = $ignored;
+        $this->logger = $logger;
     }
 
     public function handle(GetResponseEvent $event)
     {
-        if ($this->entryPoint->isIgnored()) {
+        if (true === $this->ignored) {
             if (null !== $this->securityContext->getToken()) {
                 return;
             }
@@ -51,33 +54,22 @@ class RequestSignatureListener implements ListenerInterface
             return;
         }
 
-        $request   = $event->getRequest();
-        $parameter = $this->entryPoint->get('parameter');
+        $request = $event->getRequest();
+        $authToken = new RequestSignatureToken;
+        $authToken->signature = $request->get($this->signatureQueryParameters->getNonceQueryParameter());
+        $authToken->signatureTime = $request->get($this->signatureQueryParameters->getTimeQueryParameter());
+        $authToken->requestMethod = $request->server->get('REQUEST_METHOD');
+        $authToken->requestHost = $request->server->get('HTTP_HOST');
+        $authToken->requestPathInfo = $request->getPathInfo();
+        $authToken->requestContent = rawurldecode($request->getContent());
 
-        if (null !== $signature = $request->get($parameter)) {
-
-            $token = new RequestSignatureToken();
-            $token->request   = $request;
-            $token->signature = $signature;
-
-            if ($this->entryPoint->get('replay_protection')) {
-                $token->signatureTime = $request->get($this->entryPoint->get('replay_protection_parameter'));
-            }
-
-            try {
-                $returnValue = $this->authenticationManager->authenticate($token);
-
-                if ($returnValue instanceof TokenInterface) {
-                    return $this->securityContext->setToken($returnValue);
-                }
-
-                if ($returnValue instanceof Response) {
-                    return $event->setResponse($returnValue);
-                }
-            } catch (AuthenticationException $e) {
-                if ($this->logger) {
-                    $this->logger->info(sprintf('Authentication request failed: %s', $e->getMessage()));
-                }
+        try {
+            return $this->securityContext->setToken(
+                $this->authenticationManager->authenticate($authToken)
+            );
+        } catch (AuthenticationException $e) {
+            if ($this->logger) {
+                $this->logger->info(sprintf('Authentication request failed: %s', $e->getMessage()));
             }
         }
 

@@ -7,69 +7,44 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
-use Rezzza\SecurityBundle\Security\RequestSignature\RequestSignatureBuilder;
-use Rezzza\SecurityBundle\Security\Firewall\RequestSignatureEntryPoint;
-use Rezzza\SecurityBundle\Security\Firewall\Context;
+use Rezzza\SecurityBundle\Security\SignatureValidToken;
+use Rezzza\SecurityBundle\Security\Firewall\SignedRequest;
+use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
+use Rezzza\SecurityBundle\Security\Firewall\ReplayProtection;
+use Rezzza\SecurityBundle\Security\Firewall\InvalidSignatureException;
+use Rezzza\SecurityBundle\Security\Firewall\ExpiredSignatureException;
 
-/**
- * RequestSignatureProvider
- *
- * @uses AuthenticationProviderInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class RequestSignatureProvider implements AuthenticationProviderInterface
 {
-    /**
-     * @var RequestSignatureBuilder
-     */
-    private $builder;
+    private $signatureConfig;
 
-    /**
-     * @var RequestSignatureEntryPoint
-     */
-    private $entryPoint;
+    private $replayProtection;
 
-    /**
-     * @param RequestSignatureBuilder    $builder    builder
-     * @param RequestSignatureEntryPoint $entryPoint entryPoint
-     */
-    public function __construct(RequestSignatureBuilder $builder, RequestSignatureEntryPoint $entryPoint)
+    public function __construct(SignatureConfig $signatureConfig, ReplayProtection $replayProtection)
     {
-        $this->builder    = $builder;
-        $this->entryPoint = $entryPoint;
+        $this->signatureConfig = $signatureConfig;
+        $this->replayProtection = $replayProtection;
     }
 
-    /**
-     * @param TokenInterface $token token
-     *
-     * @throws AuthenticationException
-     * @return TokenInterface
-     */
     public function authenticate(TokenInterface $token)
     {
-        $context = new Context();
-        $context->hydrateWithToken($token);
-        $context->hydrateWithEntryPoint($this->entryPoint);
+        try {
+            $signedRequest = new SignedRequest(
+                $token->requestMethod,
+                $token->requestHost,
+                $token->requestPathInfo,
+                $token->requestContent,
+                $token->signatureTime
+            );
 
-        $signature = $this->builder->build($context);
+            $signedRequest->authenticateSignature($token->signature, $this->signatureConfig, $this->replayProtection);
 
-        if ($signature != $token->signature) {
-            throw new AuthenticationException('Invalid signature');
+            return new SignatureValidToken($token->signature, $token->signatureTime);
+        } catch (InvalidSignatureException $e) {
+            throw new AuthenticationException('Invalid signature', null, $e);
+        } catch (ExpiredSignatureException $e) {
+            throw new NonceExpiredException($e->getMessage(), null, $e);
         }
-
-        if ($this->entryPoint->get('replay_protection')) {
-            $date = $token->signatureTime;
-
-            if (!is_numeric($date)) {
-                throw new NonceExpiredException('Signature ttl is not valid');
-            }
-
-            if ($this->entryPoint->get('replay_protection_lifetime') < abs(time() - $date)) {
-                throw new NonceExpiredException('Signature has expired');
-            }
-        }
-
-        return $token;
     }
 
     /**

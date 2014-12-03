@@ -12,17 +12,23 @@ class RequestSignatureFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
-        $entryPointId = $this->createEntryPoint($container, $id, $config, $defaultEntryPoint);
+        $signatureQueryParametersId = $this->createSignatureQueryParameters($container, $id, $config);
+        $signatureConfigId = $this->createSignatureConfig($container, $id, $config);
+        $replayProtectionId = $this->createReplayProtection($container, $id, $config);
         $providerId = 'security.authentication.provider.request_signature.'.$id;
 
         $container
             ->setDefinition($providerId, new DefinitionDecorator('rezzza.security.request_signature.provider'))
-            ->addArgument(new Reference($entryPointId))
-            ;
+            ->addArgument(new Reference($signatureConfigId))
+            ->addArgument(new Reference($replayProtectionId))
+        ;
 
         $listenerId = 'security.authentication.listener.request_signature.'.$id;
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('rezzza.security.request_signature.listener'))
-            ->addArgument(new Reference($entryPointId));
+        $listener = $container
+            ->setDefinition($listenerId, new DefinitionDecorator('rezzza.security.request_signature.listener'))
+            ->replaceArgument(2, new Reference($signatureQueryParametersId))
+            ->replaceArgument(3, $config['ignore'])
+        ;
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
@@ -37,24 +43,41 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         return 'request_signature';
     }
 
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return string
-     */
-    public function createEntryPoint($container, $id, $config, $defaultEntryPoint)
+    public function createSignatureConfig($container, $id, $config)
     {
-        if (null !== $defaultEntryPoint) {
-            return $defaultEntryPoint;
-        }
-
-        $entryPointId = 'rezzza.security.request_signature.entry_point.'.$id;
+        $signatureConfigId = 'rezzza.security.request_signature.signature_config.'.$id;
         $container
-            ->setDefinition($entryPointId, new DefinitionDecorator('rezzza.security.request_signature.entry_point'))
-            ->addArgument($config)
-            ;
+            ->setDefinition($signatureConfigId, new DefinitionDecorator('rezzza.security.request_signature.signature_config'))
+            ->addArgument($config['replay_protection']['enabled'])
+            ->addArgument($config['algorithm'])
+            ->addArgument($config['secret'])
+        ;
 
-        return $entryPointId;
+        return $signatureConfigId;
+    }
+
+    public function createSignatureQueryParameters($container, $id, $config)
+    {
+        $signatureQueryParametersId = 'rezzza.security.request_signature.signature_query_parameters.'.$id;
+        $container
+            ->setDefinition($signatureQueryParametersId, new DefinitionDecorator('rezzza.security.request_signature.signature_query_parameters'))
+            ->addArgument($config['parameter'])
+            ->addArgument($config['replay_protection']['parameter'])
+        ;
+
+        return $signatureQueryParametersId;
+    }
+
+    public function createReplayProtection($container, $id, $config)
+    {
+        $replayProtectionId = 'rezzza.security.request_signature.replay_protection.'.$id;
+        $container
+            ->setDefinition($replayProtectionId, new DefinitionDecorator('rezzza.security.request_signature.replay_protection'))
+            ->addArgument($config['replay_protection']['enabled'])
+            ->addArgument($config['replay_protection']['lifetime'])
+        ;
+
+        return $replayProtectionId;
     }
 
     public function addConfiguration(NodeDefinition $node)
@@ -72,7 +95,6 @@ class RequestSignatureFactory implements SecurityFactoryInterface
                     ->scalarNode('parameter')->defaultValue('_signature_time')->cannotBeEmpty()->end()
                 ->end()
             ->end()
-            ;
-
+        ;
     }
 }
