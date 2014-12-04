@@ -1,0 +1,20 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    foo: { password: bar }
+    firewalls:
+        api:
+            pattern:   ^/.*
+            request_signature:
+                algorithm: SHA1
+                secret:    MyS3cr3t
+                parameter: _signature
+                replay_protection:
+                    enabled:   true
+                    lifetime:  1
+                    parameter: _signature_ttl

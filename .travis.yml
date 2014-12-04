@@ -6,15 +6,29 @@ cache:
         - vendor
         - bin
 
+addons:
+    hosts:
+        - security-bundle.vlr.localtest
+
 php:
     - 5.3
     - 5.5
 
 install:
+    - composer self-update
     - composer install --dev --prefer-source
+
+before_script:
+    - git clone --depth=50 https://github.com/rezzza/travis-ci.git ~/.rezzza.travis-ci
+    - mkdir -p ~/vhosts && ln -s ~/build/rezzza/SecurityBundle/features/bootstrap ~/vhosts/security-bundle.vlr.localtest
+    - phpenv rehash
+    - cp ~/.rezzza.travis-ci/php/php-fpm.conf ~/.phpenv/versions/$(phpenv version-name)/etc/
+    - sudo $(which php-fpm)
+    - ~/.rezzza.travis-ci/apache/bootstrap.sh 80
 
 script:
     - bin/atoum
+    - bin/behat -f progress -vvv
 
 notifications:
     email:
