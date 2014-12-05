@@ -16,11 +16,11 @@ class SignedRequest
 
     public function __construct($method, $host, $pathInfo, $content, $signatureTime)
     {
-        $this->method = strtoupper($method);
+        $this->setMethod(strtoupper($method));
+        $this->signatureTime = $signatureTime;
         $this->host = $host;
         $this->pathInfo = $pathInfo;
         $this->content = $content;
-        $this->signatureTime = $signatureTime;
     }
 
     public function buildSignature(SignatureConfig $signatureConfig)
@@ -33,6 +33,7 @@ class SignedRequest
         );
 
         if ($signatureConfig->isReplayProtectionEnabled()) {
+            $this->guardValidSignatureTime();
             // use unshift to keep BC on signature generation
             array_unshift($payload, $this->signatureTime);
         }
@@ -55,5 +56,27 @@ class SignedRequest
         }
 
         return true;
+    }
+
+    private function guardValidSignatureTime()
+    {
+        if (!is_numeric($this->signatureTime)) {
+            throw new InvalidSignatureException(
+                sprintf('Signed request accepts only numeric value for "signatureTime" attribute. "%s" given', $this->signatureTime)
+            );
+        }
+    }
+
+    private function setMethod($method)
+    {
+        $httpVerbs = array('POST', 'GET', 'PUT', 'PATCH', 'LINK');
+
+        if (!in_array($method, $httpVerbs)) {
+            throw new InvalidSignatureException(
+                sprintf('Signed request accepts only valid http method for "method" attribute. "%s" given', $method)
+            );
+        }
+
+        $this->method = $method;
     }
 }
