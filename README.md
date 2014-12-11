@@ -11,7 +11,7 @@ SecurityBundle
 
 ```json
     "require": {
-        'rezzza/security-bundle': '1.*',
+        'rezzza/security-bundle': '~2.0',
     }
 ```
 
@@ -75,18 +75,16 @@ It'll hash all theses criterias with a secret defined on `security.yml`, example
 Build the signature:
 
 ```php
-$context = new \Rezzza\SecurityBundle\Security\Firewall\Context();
-$context->set('request.method', 'GET')
-    ->set('request.host', 'subdomain.domain.tld')
-    ->set('request.path_info', '/path/to/resources')
-    ->set('request.signature_time', time())
-    ->set('firewall.replay_protection', 'replayProtectionDefinedOnFirewall')
-    ->set('firewall.algorithm', 'algorithmDefinedOnFirewall')
-    ->set('firewall.secret', 'secretDefinedOnFirewall')
-    ;
+$signatureConfig = new SignatureConfig(true, 'sha1', 's3cr3t');
+$signedRequest = new SignedRequest(
+    'GET',
+    'subdomain.domain.tld',
+    '/path/to/resources',
+    'content',
+    $signatureTime // if needed
+);
 
-$builder   = $this->get('rezzza.security.request_signature.builder');
-$signature = $builder->build($context);
+$signature = $signedRequest->buildSignature($signatureConfig);
 ```
 
 You can define distant firewall on a config:
@@ -103,15 +101,17 @@ rezzza_security:
 And then:
 
 ```php
-$context = $this->get('rezzza.security.firewall.my_firewall.context')
-    ->set('request.method', 'POST')
-    ->set('request.host', 'subdomain.domain.tld')
-    ->set('request.path_info', '/path/to/resources')
-    ->set('request.signature_time', time())
-    ->set('request.content', 'myfield=myresult&my......');
+$signatureConfig = $this->container->get('rezzza.security.signature_config.my_firewall');
 
-$builder   = $this->get('rezzza.security.request_signature.builder');
-$signature = $builder->build($context);
+$signedRequest = new SignedRequest(
+    'GET',
+    'subdomain.domain.tld',
+    '/path/to/resources',
+    'content',
+    $signatureTime // if needed
+);
+
+$signature = $signedRequest->buildSignature($signatureConfig);
 ```
 
 # Obfuscate request

@@ -41,13 +41,12 @@ class RezzzaSecurityExtension extends Extension
         $firewalls = $config['firewalls'];
 
         foreach ($firewalls as $name => $data) {
-            $serviceName = sprintf('rezzza.security.firewall.%s.context', $name);
+            $serviceName = sprintf('rezzza.security.signature_config.%s', $name);
 
-            $definition = new Definition('Rezzza\SecurityBundle\Security\Firewall\Context');
-            $definition->addMethodCall('set', array('firewall.replay_protection', $data['replay_protection']));
-            $definition->addMethodCall('set', array('firewall.algorithm', $data['algorithm']));
-            $definition->addMethodCall('set', array('firewall.secret', $data['secret']));
-            $definition->setScope('prototype');
+            $definition = new Definition('Rezzza\SecurityBundle\Security\Firewall\SignatureConfig');
+            $definition->addArgument($data['replay_protection']);
+            $definition->addArgument($data['algorithm']);
+            $definition->addArgument($data['secret']);
 
             $container->setDefinition($serviceName, $definition);
         }

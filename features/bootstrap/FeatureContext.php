@@ -6,16 +6,16 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 
+use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
+use Rezzza\SecurityBundle\Security\Firewall\SignedRequest;
+
 class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
-    private $signatureBuilder;
+    private $signatureConfig;
 
-    private $firewallContext;
-
-    public function __construct($signatureBuilder, $firewallContext)
+    public function __construct(SignatureConfig $signatureConfig)
     {
-        $this->signatureBuilder = $signatureBuilder;
-        $this->firewallContext = $firewallContext;
+        $this->signatureConfig = $signatureConfig;
     }
 
     /**
@@ -61,13 +61,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
 
     private function buildSignature($url, $timestamp)
     {
-        $this->firewallContext
-            ->set('request.method', 'GET')
-            ->set('request.host', 'security-bundle.vlr.localtest')
-            ->set('request.path_info', $url)
-            ->set('request.signature_time', $timestamp)
-        ;
+        $signedRequest = new SignedRequest('GET', 'security-bundle.vlr.localtest', $url, '', $timestamp);
 
-        return $this->signatureBuilder->build($this->firewallContext);
+        return $signedRequest->buildSignature($this->signatureConfig);
     }
 }

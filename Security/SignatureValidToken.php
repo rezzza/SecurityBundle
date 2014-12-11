@@ -9,19 +9,18 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class RequestSignatureToken extends AbstractToken
+class SignatureValidToken extends AbstractToken
 {
-    public $requestMethod;
-
-    public $requestPathInfo;
-
-    public $requestContent;
-
-    public $requestHost;
-
     public $signature;
 
     public $signatureTime;
+
+    public function __construct($signature, $signatureTime, array $roles = array())
+    {
+        parent::__construct($roles);
+        $this->signature = $signature;
+        $this->signatureTime = $signatureTime;
+    }
 
     /**
      * {@inheritdoc}
