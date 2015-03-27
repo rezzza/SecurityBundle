@@ -4,12 +4,11 @@ namespace Rezzza\SecurityBundle\Security\Firewall;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
@@ -21,21 +20,21 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
  */
 class RequestSignatureListener implements ListenerInterface
 {
-    protected $securityContext;
+    protected $tokenStorage;
     protected $authenticationManager;
     protected $signatureQueryParameters;
     protected $ignored;
     protected $logger;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         SignatureQueryParameters $signatureQueryParameters,
         $ignored,
         LoggerInterface $logger = null
     )
     {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->signatureQueryParameters = $signatureQueryParameters;
         $this->ignored = $ignored;
@@ -45,11 +44,11 @@ class RequestSignatureListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         if (true === $this->ignored) {
-            if (null !== $this->securityContext->getToken()) {
+            if (null !== $this->tokenStorage->getToken()) {
                 return;
             }
 
-            $this->securityContext->setToken(new AnonymousToken('request_signature', 'anon.', array()));
+            $this->tokenStorage->setToken(new AnonymousToken('request_signature', 'anon.', array()));
 
             return;
         }
@@ -64,7 +63,7 @@ class RequestSignatureListener implements ListenerInterface
         $authToken->requestContent = rawurldecode($request->getContent());
 
         try {
-            return $this->securityContext->setToken(
+            return $this->tokenStorage->setToken(
                 $this->authenticationManager->authenticate($authToken)
             );
         } catch (AuthenticationException $e) {
