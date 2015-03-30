@@ -16,7 +16,7 @@
         <service id="rezzza.security.request_signature.provider" class="%rezzza.security.request_signature.provider.class%" public="false" />
 
         <service id="rezzza.security.request_signature.listener" class="%rezzza.security.request_signature.listener.class%" public="false">
-            <argument type="service" id="security.context"/>
+            <argument type="service" id="security.token_storage"/>
             <argument type="service" id="security.authentication.manager" />
             <argument /> <!-- injected via RequestSignatureFactory -->
             <argument /> <!-- injected via RequestSignatureFactory -->
