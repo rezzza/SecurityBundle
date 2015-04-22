@@ -41,7 +41,7 @@ class ReplayProtection extends atoum\test
         return array(
             array(0, 'mlsjmsdjf', 1234),
             array(600, 1234, 'llskfsmldf'),
-            array(100, 123456789, 09876543)
+            array(100, 123456789, 9876543)
         );
     }
 
