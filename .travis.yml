@@ -1,5 +1,8 @@
 language: php
 
+dist: trusty
+sudo: required
+
 cache:
     apt: true
     directories:
@@ -11,24 +14,26 @@ addons:
         - security-bundle.vlr.localtest
 
 php:
-    - 5.3
+    - 5.4
     - 5.5
     - 5.6
+    - 7.0
 
 install:
     - composer self-update
     - composer install --dev --prefer-source
 
-before_script:
-    - git clone --depth=50 https://github.com/rezzza/travis-ci.git ~/.rezzza.travis-ci
-    - mkdir -p ~/vhosts && ln -s ~/build/rezzza/SecurityBundle/features/bootstrap ~/vhosts/security-bundle.vlr.localtest
+install:
+    - git clone --branch trusty --depth=1 https://github.com/rezzza/travis-ci.git ~/.rezzza.travis-ci
+    - ~/.rezzza.travis-ci/php/bootstrap.sh apcu fpm
     - phpenv rehash
-    - cp ~/.rezzza.travis-ci/php/php-fpm.conf ~/.phpenv/versions/$(phpenv version-name)/etc/
-    - sudo $(which php-fpm)
     - ~/.rezzza.travis-ci/apache/bootstrap.sh 80
+    - ln -s ~/build/rezzza/SecurityBundle/features/bootstrap ~/vhosts/security-bundle.vlr.localtest
+    - composer install --optimize-autoloader --prefer-dist --no-scripts
+
 
 script:
-    - bin/atoum
+    - bin/atoum -ulr
     - bin/behat -f progress -vvv
 
 notifications:

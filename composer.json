@@ -16,7 +16,7 @@
         "doctrine/common": "~2.2"
     },
     "require-dev": {
-        "atoum/atoum": "~1.0",
+        "atoum/atoum": "~2.0",
         "behat/behat": "~3.0",
         "behat/symfony2-extension": "~2.0",
         "behat/mink-extension": "~2.0",
