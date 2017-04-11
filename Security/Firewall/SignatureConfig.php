@@ -2,6 +2,8 @@
 
 namespace Rezzza\SecurityBundle\Security\Firewall;
 
+use GuzzleHttp\Psr7\Request;
+
 class SignatureConfig
 {
     private $replayProtectionEnabled;

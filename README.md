@@ -114,6 +114,21 @@ $signedRequest = new SignedRequest(
 $signature = $signedRequest->buildSignature($signatureConfig);
 ```
 
+Do you use PSR7 request ?
+
+```
+$signatureConfig = $this->container->get('rezzza.security.signature_config.my_firewall');
+
+$url     = 'http://domain.tld/api/uri.json?foo= bar';
+// example with guzzle psr7 implementation.
+$request = new \GuzzleHttp\Psr7\Request('GET', $url);
+
+$signer  = new \Rezzza\SecurityBundle\Request\Psr7RequestSigner($signatureConfig);
+$request = $signer->sign($request);
+
+$response = (new \GuzzleHttp\Client())->send($request);
+```
+
 # Obfuscate request
 
 If you have critical data coming on your application, you may not want to expose them into symfony profiler. You can easily define which data will not appear on this one on each routes.

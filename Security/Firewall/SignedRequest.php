@@ -14,7 +14,7 @@ class SignedRequest
 
     private $signatureTime;
 
-    public function __construct($method, $host, $pathInfo, $content, $signatureTime)
+    public function __construct($method, $host, $pathInfo, $content, $signatureTime = null)
     {
         $this->setMethod(strtoupper($method));
         $this->signatureTime = $signatureTime;
