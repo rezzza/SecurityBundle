@@ -116,7 +116,7 @@ $signature = $signedRequest->buildSignature($signatureConfig);
 
 Do you use PSR7 request ?
 
-```
+```php
 $signatureConfig = $this->container->get('rezzza.security.signature_config.my_firewall');
 
 $url     = 'http://domain.tld/api/uri.json?foo= bar';
