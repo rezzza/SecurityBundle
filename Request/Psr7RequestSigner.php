@@ -46,7 +46,9 @@ class Psr7RequestSigner
         $uri = $request->getUri();
 
         $query = $uri->getQuery();
-        $query .= (empty($query)) ? '?' : '&';
+        if (false === empty($query)) {
+            $query .= '&';
+        }
         $query .= '_signature='.$signature;
 
         if ($replayProtectionEnabled) {
