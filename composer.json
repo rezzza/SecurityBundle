@@ -22,6 +22,9 @@
         "behat/mink-extension": "~2.0",
         "behat/mink-goutte-driver": "~1.1"
     },
+    "suggest": {
+        "psr/http-message": "Required by \\Rezzza\\SecurityBundle\\Request\\Psr7RequestSigner"
+    },
     "autoload":     {
         "psr-0": { "Rezzza\\SecurityBundle": "" }
     },
