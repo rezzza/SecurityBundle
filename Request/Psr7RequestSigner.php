@@ -27,7 +27,7 @@ class Psr7RequestSigner
     /**
      * @param RequestInterface $request request
      *
-     * @return Request
+     * @return RequestInterface
      */
     public function sign(RequestInterface $request)
     {
