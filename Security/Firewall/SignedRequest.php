@@ -69,7 +69,7 @@ class SignedRequest
 
     private function setMethod($method)
     {
-        $httpVerbs = array('POST', 'GET', 'PUT', 'PATCH', 'LINK');
+        $httpVerbs = array('POST', 'GET', 'PUT', 'PATCH', 'LINK', 'DELETE');
 
         if (!in_array($method, $httpVerbs)) {
             throw new InvalidSignatureException(
