@@ -1,16 +1,16 @@
 {
-    "name": "rezzza/security-bundle",
+    "name": "inextensodigital/security-bundle",
     "description": "Signed requests check",
     "keywords": ["security", "symfony", "bundle"],
     "type": "symfony-bundle",
-    "homepage": "https://github.com/rezzza/SecurityBundle",
+    "homepage": "https://github.com/inextensodigital/SecurityBundle",
     "license": "MIT",
     "authors": [{
         "name": "Community contributors",
-        "homepage": "https://github.com/rezzza/SecurityBundle/contributors"
+        "homepage": "https://github.com/inextensodigital/SecurityBundle/contributors"
     }],
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.5",
         "symfony/framework-bundle": "~2.6|~3.0|~4.0",
         "symfony/security-bundle" : "~2.6|~3.0|~4.0",
         "doctrine/common": "~2.2"
