@@ -4,7 +4,7 @@ namespace Rezzza\SecurityBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 
@@ -18,14 +18,14 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         $providerId = 'security.authentication.provider.request_signature.'.$id;
 
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('rezzza.security.request_signature.provider'))
+            ->setDefinition($providerId, new ChildDefinition('rezzza.security.request_signature.provider'))
             ->addArgument(new Reference($signatureConfigId))
             ->addArgument(new Reference($replayProtectionId))
         ;
 
         $listenerId = 'security.authentication.listener.request_signature.'.$id;
         $listener = $container
-            ->setDefinition($listenerId, new DefinitionDecorator('rezzza.security.request_signature.listener'))
+            ->setDefinition($listenerId, new ChildDefinition('rezzza.security.request_signature.listener'))
             ->replaceArgument(2, new Reference($signatureQueryParametersId))
             ->replaceArgument(3, $config['ignore'])
         ;
@@ -47,7 +47,7 @@ class RequestSignatureFactory implements SecurityFactoryInterface
     {
         $signatureConfigId = 'rezzza.security.request_signature.signature_config.'.$id;
         $container
-            ->setDefinition($signatureConfigId, new DefinitionDecorator('rezzza.security.request_signature.signature_config'))
+            ->setDefinition($signatureConfigId, new ChildDefinition('rezzza.security.request_signature.signature_config'))
             ->addArgument($config['replay_protection']['enabled'])
             ->addArgument($config['algorithm'])
             ->addArgument($config['secret'])
@@ -60,7 +60,7 @@ class RequestSignatureFactory implements SecurityFactoryInterface
     {
         $signatureQueryParametersId = 'rezzza.security.request_signature.signature_query_parameters.'.$id;
         $container
-            ->setDefinition($signatureQueryParametersId, new DefinitionDecorator('rezzza.security.request_signature.signature_query_parameters'))
+            ->setDefinition($signatureQueryParametersId, new ChildDefinition('rezzza.security.request_signature.signature_query_parameters'))
             ->addArgument($config['parameter'])
             ->addArgument($config['replay_protection']['parameter'])
         ;
@@ -72,7 +72,7 @@ class RequestSignatureFactory implements SecurityFactoryInterface
     {
         $replayProtectionId = 'rezzza.security.request_signature.replay_protection.'.$id;
         $container
-            ->setDefinition($replayProtectionId, new DefinitionDecorator('rezzza.security.request_signature.replay_protection'))
+            ->setDefinition($replayProtectionId, new ChildDefinition('rezzza.security.request_signature.replay_protection'))
             ->addArgument($config['replay_protection']['enabled'])
             ->addArgument($config['replay_protection']['lifetime'])
         ;
