@@ -14,10 +14,7 @@ addons:
         - security-bundle.vlr.localtest
 
 php:
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
+    - 7.1
 
 install:
     - composer self-update
@@ -36,9 +33,3 @@ script:
     - bin/atoum -ulr
     - bin/behat -f progress -vvv
 
-notifications:
-    email:
-        recipients:
-            - ci@verylastroom.com
-        on_success: change
-        on_failure: change
