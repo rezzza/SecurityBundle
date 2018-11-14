@@ -10,7 +10,6 @@ framework:
     csrf_protection: true
     validation: false
     default_locale: en
-    trusted_proxies: ~
     session: ~
 
 rezzza_security:

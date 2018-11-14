@@ -1,9 +1,9 @@
 SecurityBundle
 ==============
 
-[![Build Status](https://travis-ci.org/rezzza/SecurityBundle.svg?branch=master)](https://travis-ci.org/rezzza/SecurityBundle)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/rezzza/SecurityBundle/?branch=master)
+[![Build Status](https://travis-ci.com/inextensodigital/SecurityBundle.svg?branch=master)](https://travis-ci.com/inextensodigital/SecurityBundle)
+
+This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/SecurityBundle).
 
 # Installation
 
@@ -11,7 +11,7 @@ SecurityBundle
 
 ```json
     "require": {
-        'rezzza/security-bundle': '~2.0',
+        'inextensodigital/security-bundle': '~4.0',
     }
 ```
 
