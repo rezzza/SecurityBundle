@@ -18,7 +18,7 @@ default:
                 env: "test"
                 debug: true
         Behat\MinkExtension:
-            base_url:  "http://security-bundle.vlr.localtest"
+            base_url:  "http://dev.security.com"
             sessions:
                 default:
-                    goutte: ~
+                    symfony2: ~

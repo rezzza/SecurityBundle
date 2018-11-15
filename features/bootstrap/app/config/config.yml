@@ -3,6 +3,7 @@ imports:
 
 framework:
     secret: test_blah
+    test: ~
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: "%kernel.debug%"

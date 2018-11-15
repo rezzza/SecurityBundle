@@ -11,7 +11,7 @@ This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/Secur
 
 ```json
     "require": {
-        'inextensodigital/security-bundle': '~4.0',
+        "inextensodigital/security-bundle": "~4.0",
     }
 ```
 
