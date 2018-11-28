@@ -47,6 +47,7 @@ class RezzzaSecurityExtension extends Extension
             $definition->addArgument($data['replay_protection']);
             $definition->addArgument($data['algorithm']);
             $definition->addArgument($data['secret']);
+            $definition->setPublic(true);
 
             $container->setDefinition($serviceName, $definition);
         }

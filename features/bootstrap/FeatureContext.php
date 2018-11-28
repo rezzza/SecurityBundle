@@ -61,7 +61,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
 
     private function buildSignature($url, $timestamp)
     {
-        $signedRequest = new SignedRequest('GET', 'security-bundle.vlr.localtest', $url, '', $timestamp);
+        $signedRequest = new SignedRequest('GET', 'dev.security.com', $url, '', $timestamp);
 
         return $signedRequest->buildSignature($this->signatureConfig);
     }

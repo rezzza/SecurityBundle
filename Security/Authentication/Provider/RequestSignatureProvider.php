@@ -5,7 +5,7 @@ namespace Rezzza\SecurityBundle\Security\Authentication\Provider;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\NonceExpiredException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
 use Rezzza\SecurityBundle\Security\SignatureValidToken;
 use Rezzza\SecurityBundle\Security\Firewall\SignedRequest;
@@ -43,7 +43,7 @@ class RequestSignatureProvider implements AuthenticationProviderInterface
         } catch (InvalidSignatureException $e) {
             throw new AuthenticationException('Invalid signature', null, $e);
         } catch (ExpiredSignatureException $e) {
-            throw new NonceExpiredException($e->getMessage(), null, $e);
+            throw new BadCredentialsException($e->getMessage(), null, $e);
         }
     }
 

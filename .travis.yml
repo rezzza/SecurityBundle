@@ -4,41 +4,35 @@ dist: trusty
 sudo: required
 
 cache:
-    apt: true
     directories:
         - vendor
         - bin
 
-addons:
-    hosts:
-        - security-bundle.vlr.localtest
-
 php:
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
+    - 7.1
+
+env:
+    global:
+    - WEBSITE_URL="http://dev.security.com"
+    - WEBSITE_DOMAIN="security.com"
 
 install:
+    - sudo apt-add-repository -y ppa:ondrej/php
+    - sudo apt-get update
+    - sudo apt-get install nginx php7.1-fpm
+    - cd $TRAVIS_BUILD_DIR
+    - sudo cp features/bootstrap/Resources/nginx-conf /etc/nginx/sites-available/$WEBSITE_DOMAIN
+    - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR/features/bootstrap/web?g" --in-place /etc/nginx/sites-available/$WEBSITE_DOMAIN
+    - sudo sed -e "s?%SITE_DOMAIN%?$WEBSITE_DOMAIN?g" --in-place /etc/nginx/sites-available/$WEBSITE_DOMAIN
+    - sudo ln -s /etc/nginx/sites-available/$WEBSITE_DOMAIN /etc/nginx/sites-enabled/
     - composer self-update
-    - composer install --dev --prefer-source
-
-install:
-    - git clone --branch trusty --depth=1 https://github.com/rezzza/travis-ci.git ~/.rezzza.travis-ci
-    - ~/.rezzza.travis-ci/php/bootstrap.sh apcu fpm
-    - phpenv rehash
-    - ~/.rezzza.travis-ci/apache/bootstrap.sh 80
-    - ln -s ~/build/rezzza/SecurityBundle/features/bootstrap ~/vhosts/security-bundle.vlr.localtest
     - composer install --optimize-autoloader --prefer-dist --no-scripts
 
+before_script:
+    - sudo service php7.1-fpm restart
+    - sudo service nginx restart
 
 script:
     - bin/atoum -ulr
     - bin/behat -f progress -vvv
 
-notifications:
-    email:
-        recipients:
-            - ci@verylastroom.com
-        on_success: change
-        on_failure: change
