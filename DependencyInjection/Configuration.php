@@ -20,8 +20,14 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $tb       = new TreeBuilder();
-        $rootNode = $tb->root('rezzza_security');
+        $treeBuilder = new TreeBuilder('rezzza_security');
+
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config 4.1 and older
+            $rootNode = $treeBuilder->root('rezzza_security');
+        }
 
         $rootNode
             ->children()
@@ -51,6 +57,6 @@ class Configuration implements ConfigurationInterface
             ->end()
             ;
 
-        return $tb;
+        return $treeBuilder;
     }
 }
