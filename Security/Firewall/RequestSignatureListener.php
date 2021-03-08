@@ -3,22 +3,15 @@
 namespace Rezzza\SecurityBundle\Security\Firewall;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Rezzza\SecurityBundle\Security\RequestSignatureToken;
 use Psr\Log\LoggerInterface;
 
-/**
- * RequestSignatureListener
- *
- * @uses ListenerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class RequestSignatureListener implements ListenerInterface
+class RequestSignatureListener
 {
     protected $tokenStorage;
     protected $authenticationManager;
@@ -41,7 +34,7 @@ class RequestSignatureListener implements ListenerInterface
         $this->logger = $logger;
     }
 
-    public function handle(GetResponseEvent $event)
+    public function __invoke(RequestEvent $event)
     {
         if (true === $this->ignored) {
             if (null !== $this->tokenStorage->getToken()) {
