@@ -17,9 +17,8 @@ env:
     - WEBSITE_DOMAIN="security.com"
 
 install:
-    - sudo apt-add-repository -y ppa:ondrej/php
     - sudo apt-get update
-    - sudo apt-get install nginx php7.1-fpm
+    - sudo apt-get install nginx
     - cd $TRAVIS_BUILD_DIR
     - sudo cp features/bootstrap/Resources/nginx-conf /etc/nginx/sites-available/$WEBSITE_DOMAIN
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR/features/bootstrap/web?g" --in-place /etc/nginx/sites-available/$WEBSITE_DOMAIN
@@ -29,7 +28,6 @@ install:
     - composer install --optimize-autoloader --prefer-dist --no-scripts
 
 before_script:
-    - sudo service php7.1-fpm restart
     - sudo service nginx restart
 
 script:
