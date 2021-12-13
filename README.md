@@ -1,7 +1,7 @@
 SecurityBundle
 ==============
 
-[![Build Status](https://travis-ci.com/inextensodigital/SecurityBundle.svg?branch=master)](https://travis-ci.com/inextensodigital/SecurityBundle)
+[![Build Status](https://travis-ci.com/fulll/security-bundle.svg?branch=master)](https://travis-ci.com/fulll/security-bundle)
 
 This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/SecurityBundle).
 
@@ -11,7 +11,7 @@ This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/Secur
 
 ```json
     "require": {
-        "inextensodigital/security-bundle": "~4.0",
+        "fulll/security-bundle": "~4.0",
     }
 ```
 
