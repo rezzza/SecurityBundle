@@ -43,7 +43,7 @@ class RequestSignatureProvider implements AuthenticationProviderInterface
         } catch (InvalidSignatureException $e) {
             throw new AuthenticationException('Invalid signature', 400, $e);
         } catch (ExpiredSignatureException $e) {
-            throw new BadCredentialsException($e->getMessage(), null, $e);
+            throw new BadCredentialsException($e->getMessage(), 408, $e);
         }
     }
 
