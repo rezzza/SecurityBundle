@@ -1,6 +1,6 @@
 ## Security
 
-We take the security of our software products and components seriously, which includes all source code repositories managed through our [In Extenso Digital's GitHub organization](https://github.com/inextensodigital).
+We take the security of our software products and components seriously, which includes all source code repositories managed through our [In Extenso Digital's GitHub organization](https://github.com/fulll).
 
 If you believe you have found a security vulnerability in any In Extenso Digital's repository that meets Wikipedia's definition of a security vulnerability ([English version](https://en.wikipedia.org/wiki/Vulnerability_(computing)), [French version](https://fr.wikipedia.org/wiki/Vuln%C3%A9rabilit%C3%A9_(informatique))), please report it to us as described below.
 
@@ -8,9 +8,9 @@ If you believe you have found a security vulnerability in any In Extenso Digital
 
 :warning: **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, **please report them by email** to [rssi@inextenso.digital](mailto:rssi@inextenso.digital).
+Instead, **please report them by email** to [rssi@fulll.fr](mailto:rssi@fulll.fr).
 
-You should receive a response as soon as possible. If for some reason you do not, please follow up via email to our  [Administrator Team](mailto:admin@inextenso.digital) to ensure we received your original message.
+You should receive a response as soon as possible. If for some reason you do not, please follow up via email to our  [Administrator Team](mailto:admin@fulll.fr) to ensure we received your original message.
 
 For private repositories, you can also send an email or directly use the dedicated issue template for security vulnerability.
 

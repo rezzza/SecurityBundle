@@ -1,13 +1,13 @@
 {
-    "name": "inextensodigital/security-bundle",
+    "name": "fulll/security-bundle",
     "description": "Signed requests check",
     "keywords": ["security", "symfony", "bundle"],
     "type": "symfony-bundle",
-    "homepage": "https://github.com/inextensodigital/SecurityBundle",
+    "homepage": "https://github.com/fulll/security-bundle",
     "license": "MIT",
     "authors": [{
         "name": "Community contributors",
-        "homepage": "https://github.com/inextensodigital/SecurityBundle/contributors"
+        "homepage": "https://github.com/fulll/security-bundle/contributors"
     }],
     "require": {
         "php": ">7.1.3",
