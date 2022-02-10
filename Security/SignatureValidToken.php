@@ -20,6 +20,7 @@ class SignatureValidToken extends AbstractToken
         parent::__construct($roles);
         $this->signature = $signature;
         $this->signatureTime = $signatureTime;
+        $this->setAuthenticated(true);
     }
 
     /**
