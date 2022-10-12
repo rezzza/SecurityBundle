@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\Definition\Processor;
 use Rezzza\SecurityBundle\Security\Firewall\Context;
 use Symfony\Component\DependencyInjection\Definition;
+use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
 
 /**
  * RezzzaSecurityExtension
@@ -43,10 +44,11 @@ class RezzzaSecurityExtension extends Extension
         foreach ($firewalls as $name => $data) {
             $serviceName = sprintf('rezzza.security.signature_config.%s', $name);
 
-            $definition = new Definition('Rezzza\SecurityBundle\Security\Firewall\SignatureConfig');
+            $definition = new Definition(SignatureConfig::class);
             $definition->addArgument($data['replay_protection']);
             $definition->addArgument($data['algorithm']);
             $definition->addArgument($data['secret']);
+            $definition->addArgument($data['ttl']);
             $definition->setPublic(true);
 
             $container->setDefinition($serviceName, $definition);

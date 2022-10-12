@@ -32,7 +32,7 @@ class Psr7RequestSigner
     public function sign(RequestInterface $request)
     {
         $replayProtectionEnabled = $this->signatureConfig->isReplayProtectionEnabled();
-        $time = $replayProtectionEnabled ? time() : null;
+        $time = $replayProtectionEnabled ? time() + $this->signatureConfig->getTtl() : null;
 
         $signedRequest = new SignedRequest(
             $request->getMethod(),

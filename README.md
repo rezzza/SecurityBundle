@@ -96,6 +96,7 @@ rezzza_security:
             # algorithm:        'SHA1' default
             secret:            'IseeDeadPeopleEverywhere'
             # replay_protection: true # default
+            # ttl: 0 # Default
 ```
 
 And then:

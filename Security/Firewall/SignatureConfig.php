@@ -12,11 +12,17 @@ class SignatureConfig
 
     private $secret;
 
-    public function __construct($replayProtectionEnabled, $algorithm, $secret)
+    /**
+     * @var int
+     */
+    private $ttl;
+
+    public function __construct($replayProtectionEnabled, $algorithm, $secret, $ttl = 0)
     {
         $this->replayProtectionEnabled = (bool) $replayProtectionEnabled;
         $this->algorithm = $algorithm;
         $this->secret = $secret;
+        $this->ttl = $ttl;
     }
 
     public function isReplayProtectionEnabled()
@@ -32,5 +38,13 @@ class SignatureConfig
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTtl()
+    {
+        return $this->ttl;
     }
 }
