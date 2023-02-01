@@ -2,7 +2,7 @@
 
 namespace Rezzza\SecurityBundle\Tests\Units\Security\Firewall;
 
-use mageekguy\atoum;
+use atoum\atoum;
 
 use Rezzza\SecurityBundle\Security\Firewall\SignedRequest as SUT;
 

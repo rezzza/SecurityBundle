@@ -1,3 +1,0 @@
-demo:
-    path:  /hello
-    defaults: { _controller: DemoBundle:Demo:hello }

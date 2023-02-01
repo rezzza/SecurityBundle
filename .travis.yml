@@ -1,6 +1,6 @@
 language: php
 
-dist: xenial
+dist: focal
 sudo: required
 
 cache:
@@ -9,28 +9,17 @@ cache:
         - bin
 
 php:
-    - 7.1
-
-env:
-    global:
-    - WEBSITE_URL="http://dev.security.com"
-    - WEBSITE_DOMAIN="security.com"
+    - 8.0
 
 install:
     - sudo apt-get update
-    - sudo apt-get install nginx
     - cd $TRAVIS_BUILD_DIR
-    - sudo cp features/bootstrap/Resources/nginx-conf /etc/nginx/sites-available/$WEBSITE_DOMAIN
-    - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR/features/bootstrap/web?g" --in-place /etc/nginx/sites-available/$WEBSITE_DOMAIN
-    - sudo sed -e "s?%SITE_DOMAIN%?$WEBSITE_DOMAIN?g" --in-place /etc/nginx/sites-available/$WEBSITE_DOMAIN
-    - sudo ln -s /etc/nginx/sites-available/$WEBSITE_DOMAIN /etc/nginx/sites-enabled/
     - composer self-update
     - composer install --optimize-autoloader --prefer-dist --no-scripts
 
 before_script:
-    - sudo service nginx restart
+    - echo "xdebug.mode = coverage" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
     - bin/atoum -ulr
-    - bin/behat -f progress -vvv
 

@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="rezzza.security.request_signature.provider.class">Rezzza\SecurityBundle\Security\Authentication\Provider\RequestSignatureProvider</parameter>
         <parameter key="rezzza.security.request_signature.listener.class">Rezzza\SecurityBundle\Security\Firewall\RequestSignatureListener</parameter>
         <parameter key="rezzza.security.request_signature.signature_query_parameters.class">Rezzza\SecurityBundle\Security\Firewall\SignatureQueryParameters</parameter>
         <parameter key="rezzza.security.request_signature.signature_config.class">Rezzza\SecurityBundle\Security\Firewall\SignatureConfig</parameter>
@@ -13,14 +12,14 @@
     </parameters>
 
     <services>
-        <service id="rezzza.security.request_signature.provider" class="%rezzza.security.request_signature.provider.class%" public="false" />
+        <service id="fulll.request_signature.provider" class="Rezzza\SecurityBundle\Security\Firewall\RequestSignatureProdiver" />
 
         <service id="rezzza.security.request_signature.listener" class="%rezzza.security.request_signature.listener.class%" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument type="service" id="security.authentication.manager" />
             <argument /> <!-- injected via RequestSignatureFactory -->
             <argument /> <!-- injected via RequestSignatureFactory -->
-            <argument type="service" id="logger" on-invalid="null" />
+            <argument /> <!-- injected via RequestSignatureFactory -->
+            <argument /> <!-- injected via RequestSignatureFactory -->
         </service>
 
         <service id="rezzza.security.request_signature.signature_query_parameters" class="%rezzza.security.request_signature.signature_query_parameters.class%" public="false" />

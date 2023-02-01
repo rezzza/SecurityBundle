@@ -4,26 +4,17 @@ namespace Rezzza\SecurityBundle\Security\Firewall;
 
 class SignedRequest
 {
-    private $method;
-
-    private $host;
-
-    private $pathInfo;
-
-    private $content;
-
-    private $signatureTime;
-
-    public function __construct($method, $host, $pathInfo, $content, $signatureTime = null)
-    {
+    public function __construct(
+        private string $method,
+        private string $host,
+        private string $pathInfo,
+        private string $content,
+        private ?int $signatureTime = null
+    ) {
         $this->setMethod(strtoupper($method));
-        $this->signatureTime = $signatureTime;
-        $this->host = $host;
-        $this->pathInfo = $pathInfo;
-        $this->content = $content;
     }
 
-    public function buildSignature(SignatureConfig $signatureConfig)
+    public function buildSignature(SignatureConfig $signatureConfig): string
     {
         $payload = array(
             $this->method,
@@ -45,7 +36,7 @@ class SignedRequest
         );
     }
 
-    public function authenticateSignature($signature, SignatureConfig $signatureConfig, ReplayProtection $replayProtection)
+    public function authenticateSignature(string $signature, SignatureConfig $signatureConfig, ReplayProtection $replayProtection): bool
     {
         if ($signature !== $this->buildSignature($signatureConfig)) {
             throw new InvalidSignatureException;
@@ -58,16 +49,16 @@ class SignedRequest
         return true;
     }
 
-    private function guardValidSignatureTime()
+    private function guardValidSignatureTime(): void
     {
-        if (!is_numeric($this->signatureTime)) {
+        if (null === $this->signatureTime) {
             throw new InvalidSignatureException(
                 sprintf('Signed request accepts only numeric value for "signatureTime" attribute. "%s" given', $this->signatureTime)
             );
         }
     }
 
-    private function setMethod($method)
+    private function setMethod(string $method): void
     {
         $httpVerbs = array('POST', 'GET', 'PUT', 'PATCH', 'LINK', 'DELETE');
 

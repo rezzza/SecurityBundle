@@ -6,44 +6,30 @@ use GuzzleHttp\Psr7\Request;
 
 class SignatureConfig
 {
-    private $replayProtectionEnabled;
-
-    private $algorithm;
-
-    private $secret;
-
-    /**
-     * @var int
-     */
-    private $ttl;
-
-    public function __construct($replayProtectionEnabled, $algorithm, $secret, $ttl = 0)
-    {
-        $this->replayProtectionEnabled = (bool) $replayProtectionEnabled;
-        $this->algorithm = $algorithm;
-        $this->secret = $secret;
-        $this->ttl = $ttl;
+    public function __construct(
+        private bool $replayProtectionEnabled,
+        private string $algorithm,
+        private string $secret,
+        private int $ttl = 0
+    ) {
     }
 
-    public function isReplayProtectionEnabled()
+    public function isReplayProtectionEnabled(): bool
     {
         return true === $this->replayProtectionEnabled;
     }
 
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return $this->algorithm;
     }
 
-    public function getSecret()
+    public function getSecret(): string
     {
         return $this->secret;
     }
 
-    /**
-     * @return int
-     */
-    public function getTtl()
+    public function getTtl(): int
     {
         return $this->ttl;
     }

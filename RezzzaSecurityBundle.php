@@ -23,11 +23,7 @@ class RezzzaSecurityBundle extends Bundle
         parent::build($container);
 
         $extension = $container->getExtension('security');
-
-        // 2.0 does not support this.
-        if (method_exists('\Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension', 'addSecurityListenerFactory')) {
-            $extension->addSecurityListenerFactory(new RequestSignatureFactory());
-        }
+        $extension->addAuthenticatorFactory(new RequestSignatureFactory());
 
         $container->addCompilerPass(new Compiler\ObfuscatorCompilerPass());
     }

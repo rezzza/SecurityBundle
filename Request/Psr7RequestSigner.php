@@ -13,23 +13,11 @@ use Psr\Http\Message\RequestInterface;
  */
 class Psr7RequestSigner
 {
-    /** @var SignatureConfig */
-    private $signatureConfig;
-
-    /**
-     * @param SignatureConfig $signatureConfig signatureConfig
-     */
-    public function __construct(SignatureConfig $signatureConfig)
+    public function __construct(private SignatureConfig $signatureConfig)
     {
-        $this->signatureConfig = $signatureConfig;
     }
 
-    /**
-     * @param RequestInterface $request request
-     *
-     * @return RequestInterface
-     */
-    public function sign(RequestInterface $request)
+    public function sign(RequestInterface $request): RequestInterface
     {
         $replayProtectionEnabled = $this->signatureConfig->isReplayProtectionEnabled();
         $time = $replayProtectionEnabled ? time() + $this->signatureConfig->getTtl() : null;

@@ -2,22 +2,12 @@
 
 namespace Rezzza\SecurityBundle\Tests\Units\Security\Firewall;
 
-use mageekguy\atoum;
+use atoum\atoum;
 
 use Rezzza\SecurityBundle\Security\Firewall\ReplayProtection as SUT;
 
 class ReplayProtection extends atoum\test
 {
-    public function test_lifetime_attribute_should_be_a_numeric()
-    {
-        $this
-            ->exception(function () {
-                $sut = new SUT(false, '2 seconds');
-            })
-                ->hasMessage('ReplayProtection lifetime should be a numeric value')
-        ;
-    }
-
     /**
      * @dataProvider dummyCases
      */
@@ -39,8 +29,6 @@ class ReplayProtection extends atoum\test
     public function dummyCases()
     {
         return array(
-            array(0, 'mlsjmsdjf', 1234),
-            array(600, 1234, 'llskfsmldf'),
             array(100, 123456789, 9876543)
         );
     }
