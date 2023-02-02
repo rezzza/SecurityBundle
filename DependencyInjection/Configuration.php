@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration
+ * Configuration.
  *
  * @uses ConfigurationInterface
+ *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Configuration implements ConfigurationInterface
@@ -48,7 +51,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-            ;
+        ;
 
         return $treeBuilder;
     }

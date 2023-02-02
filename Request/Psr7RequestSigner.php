@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Request;
 
+use Psr\Http\Message\RequestInterface;
 use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
 use Rezzza\SecurityBundle\Security\Firewall\SignedRequest;
-use Psr\Http\Message\RequestInterface;
 
 /**
- * Psr7RequestSigner
+ * Psr7RequestSigner.
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
@@ -27,7 +29,7 @@ class Psr7RequestSigner
             $request->getUri()->getHost(),
             $request->getUri()->getPath(),
             (string) $request->getBody(),
-            $time
+            $time,
         );
 
         $signature = $signedRequest->buildSignature($this->signatureConfig);

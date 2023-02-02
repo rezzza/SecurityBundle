@@ -13,7 +13,7 @@ class RequestSignatureProdiver implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): void
     {
         throw new \LogicException(sprintf('Method %s should never be called.', __METHOD__));
     }
@@ -33,6 +33,6 @@ class RequestSignatureProdiver implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return $class === SignatureValidUser::class;
+        return SignatureValidUser::class === $class;
     }
 }

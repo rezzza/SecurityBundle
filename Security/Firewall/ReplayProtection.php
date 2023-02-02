@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Security\Firewall;
 
 class ReplayProtection
@@ -9,8 +11,8 @@ class ReplayProtection
     }
 
     /**
-     * @param integer $signatureTime Should be a unix timestamp
-     * @param integer $referenceTime Should be a unix timestamp
+     * @param int $signatureTime Should be a unix timestamp
+     * @param int $referenceTime Should be a unix timestamp
      */
     public function accept(?int $signatureTime, int $referenceTime): bool
     {

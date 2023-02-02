@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class RequestSignatureFactory implements AuthenticatorFactoryInterface
 {
@@ -76,7 +77,7 @@ class RequestSignatureFactory implements AuthenticatorFactoryInterface
         return $replayProtectionId;
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         $node->children()
             ->scalarNode('algorithm')->defaultValue('SHA1')->cannotBeEmpty()->end()

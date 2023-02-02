@@ -1,0 +1,13 @@
+on: push
+name: test
+
+jobs:
+  qa:
+    name: QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Php cs fixer
+        uses: fulll/actions/php-cs-fixer@master

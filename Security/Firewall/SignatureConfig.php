@@ -1,8 +1,8 @@
 <?php
 
-namespace Rezzza\SecurityBundle\Security\Firewall;
+declare(strict_types=1);
 
-use GuzzleHttp\Psr7\Request;
+namespace Rezzza\SecurityBundle\Security\Firewall;
 
 class SignatureConfig
 {
@@ -10,7 +10,7 @@ class SignatureConfig
         private bool $replayProtectionEnabled,
         private string $algorithm,
         private string $secret,
-        private int $ttl = 0
+        private int $ttl = 0,
     ) {
     }
 

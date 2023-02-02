@@ -1,19 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Security\Firewall;
 
-use Psr\Log\LoggerInterface;
 use Rezzza\SecurityBundle\Security\SignatureValidToken;
 use Rezzza\SecurityBundle\Security\SignatureValidUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -21,7 +17,6 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 class RequestSignatureListener extends AbstractAuthenticator
 {
@@ -38,9 +33,7 @@ class RequestSignatureListener extends AbstractAuthenticator
     {
         if (true === $this->ignored) {
             return new SelfValidatingPassport(
-                new UserBadge('anon.', function () {
-                    return new SignatureValidUser();
-                })
+                new UserBadge('anon.', static fn () => new SignatureValidUser()),
             );
         }
 
@@ -55,7 +48,7 @@ class RequestSignatureListener extends AbstractAuthenticator
             $request->server->get('HTTP_HOST'),
             $request->getPathInfo(),
             rawurldecode($request->getContent()),
-            $request->get($this->signatureQueryParameters->getTimeQueryParameter())
+            $request->get($this->signatureQueryParameters->getTimeQueryParameter()),
         );
 
         try {
@@ -67,9 +60,7 @@ class RequestSignatureListener extends AbstractAuthenticator
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($signature, function () {
-                return new SignatureValidUser();
-            })
+            new UserBadge($signature, static fn () => new SignatureValidUser()),
         );
     }
 
@@ -110,4 +101,3 @@ class RequestSignatureListener extends AbstractAuthenticator
         return $token;
     }
 }
-
