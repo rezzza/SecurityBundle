@@ -5,36 +5,30 @@ SecurityBundle
 
 This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/SecurityBundle).
 
+:warning: **The last version is only available from Symfony 5.**
+
+Symfony Security has introduced a new security system in Symfony 5.3.
+In Symfony 6 the legacy system is removed in favor of this system.
+
+The new authenticator system is not compatible with older versions of Symfony.
+When enabled, all security systems of your project must use the new authenticator system.
+
 # Installation
 
 ## With Composer
 
 ```json
     "require": {
-        "fulll/security-bundle": "~4.0",
+        "fulll/security-bundle": "~6.0",
     }
 ```
 
 ## Enable Bundle
 
-In `AppKernel`:
+In `config/bundles.php`:
 
 ```php
-    $bundles = array(
-        //....
-        new Rezzza\SecurityBundle\RezzzaSecurityBundle(),
-        //....
-    );
-```
-
-## On symfony 2.0
-
-Add factory to your `security.yml`
-
-```yml
-security:
-    factories:
-        - "%kernel.root_dir%/../vendor/bundles/Rezzza/SecurityBundle/Resources/config/services/security.xml"
+Rezzza\SecurityBundle\RezzzaSecurityBundle::class => ['all' => true],
 ```
 
 # Request signature checker
@@ -53,9 +47,20 @@ It'll hash all theses criterias with a secret defined on `security.yml`, example
 
 ```yaml
 # security.yml
+security:
+    # only for sf5
+    enable_authenticator_manager: true
+
+    providers:
+      # In this new version a provider must be defined to use a custom authenticator.
+      request_signature:
+        id: fulll.request_signature.provider
+
     firewalls:
         api:
             pattern: ^/api/.*
+            # must be declared explicitly if there are several providers
+            provider: request_signature
             request_signature:
                 algorithm: SHA1
                 # you can easily ignore this when use functional tests by example
