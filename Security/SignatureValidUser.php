@@ -46,4 +46,12 @@ class SignatureValidUser implements UserInterface
     {
         return '';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserIdentifier(): string
+    {
+        return '';
+    }
 }

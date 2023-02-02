@@ -29,7 +29,7 @@ class RequestSignatureListener extends AbstractAuthenticator
     ) {
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): Passport
     {
         if (true === $this->ignored) {
             return new SelfValidatingPassport(
@@ -54,7 +54,7 @@ class RequestSignatureListener extends AbstractAuthenticator
         try {
             $signedRequest->authenticateSignature($signature, $this->signatureConfig, $this->replayProtection);
         } catch (InvalidSignatureException $e) {
-            throw new BadCredentialsException('Invalid signature');
+            throw new UnauthorizedHttpException('Invalid signature');
         } catch (ExpiredSignatureException $e) {
             throw new HttpException(408, $e->getMessage());
         }

@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RequestSignatureFactory implements AuthenticatorFactoryInterface
 {
-    public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId)
+    public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId): array|string
     {
         $signatureQueryParametersId = $this->createSignatureQueryParameters($container, $firewallName, $config);
         $signatureConfigId = $this->createSignatureConfig($container, $firewallName, $config);
@@ -35,9 +35,14 @@ class RequestSignatureFactory implements AuthenticatorFactoryInterface
         return 'pre_auth';
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return 'request_signature';
+    }
+
+    public function getPriority(): int
+    {
+        return 0;
     }
 
     public function createSignatureConfig(ContainerBuilder $container, string $firewallName, array $config): string

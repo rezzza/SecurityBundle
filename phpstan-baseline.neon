@@ -1,0 +1,221 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Controller\\\\Annotations\\\\ObfuscateRequest\\:\\:__construct\\(\\) has parameter \\$obfuscatedPatterns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Controller/Annotations/ObfuscateRequest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$data$#"
+			count: 1
+			path: Controller/Annotations/ObfuscateRequest.php
+
+		-
+			message: "#^Call to method getMethodAnnotation\\(\\) on an unknown class Doctrine\\\\Common\\\\Annotations\\\\Reader\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Class Rezzza\\\\SecurityBundle\\\\DataCollector\\\\RequestDataCollector extends @final class Symfony\\\\Component\\\\HttpKernel\\\\DataCollector\\\\RequestDataCollector\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\ObfuscatorInterface\\:\\:obfuscate\\(\\) expects array, array\\|Symfony\\\\Component\\\\VarDumper\\\\Cloner\\\\Data given\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Parameter \\$annotationReader of method Rezzza\\\\SecurityBundle\\\\DataCollector\\\\RequestDataCollector\\:\\:__construct\\(\\) has invalid type Doctrine\\\\Common\\\\Annotations\\\\Reader\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Property Rezzza\\\\SecurityBundle\\\\DataCollector\\\\RequestDataCollector\\:\\:\\$annotationReader has unknown class Doctrine\\\\Common\\\\Annotations\\\\Reader as its type\\.$#"
+			count: 1
+			path: DataCollector/RequestDataCollector.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\DependencyInjection\\\\Security\\\\Factory\\\\RequestSignatureFactory\\:\\:createAuthenticator\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\DependencyInjection\\\\Security\\\\Factory\\\\RequestSignatureFactory\\:\\:createReplayProtection\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\DependencyInjection\\\\Security\\\\Factory\\\\RequestSignatureFactory\\:\\:createSignatureConfig\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\DependencyInjection\\\\Security\\\\Factory\\\\RequestSignatureFactory\\:\\:createSignatureQueryParameters\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\DependencyInjection\\\\Security\\\\Factory\\\\RequestSignatureFactory\\:\\:getPosition\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: DependencyInjection/Security/Factory/RequestSignatureFactory.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\ObfuscatorInterface\\:\\:obfuscate\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/ObfuscatorInterface.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\ObfuscatorInterface\\:\\:obfuscate\\(\\) has parameter \\$obfuscatedPatterns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/ObfuscatorInterface.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\ObfuscatorInterface\\:\\:obfuscate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/ObfuscatorInterface.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscate\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscate\\(\\) has parameter \\$obfuscatedPatterns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscateContent\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscateContent\\(\\) has parameter \\$content with no type specified\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscateContentWithPattern\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscateContentWithPattern\\(\\) has parameter \\$content with no type specified\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Obfuscator\\\\RequestObfuscator\\:\\:obfuscateContentWithPattern\\(\\) has parameter \\$pattern with no type specified\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function strlen expects string, bool\\|float\\|int\\|string given\\.$#"
+			count: 1
+			path: Request/Obfuscator/RequestObfuscator.php
+
+		-
+			message: "#^Binary operation \"\\.\\=\" between 0\\|0\\.0\\|array\\{\\}\\|string\\|false\\|null and non\\-falsy\\-string results in an error\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Call to method getBody\\(\\) on an unknown class Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Call to method getMethod\\(\\) on an unknown class Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Call to method getUri\\(\\) on an unknown class Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 3
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Call to method withUri\\(\\) on an unknown class Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Request\\\\Psr7RequestSigner\\:\\:sign\\(\\) has invalid return type Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Parameter \\$request of method Rezzza\\\\SecurityBundle\\\\Request\\\\Psr7RequestSigner\\:\\:sign\\(\\) has invalid type Psr\\\\Http\\\\Message\\\\RequestInterface\\.$#"
+			count: 1
+			path: Request/Psr7RequestSigner.php
+
+		-
+			message: "#^Parameter \\#1 \\$method of class Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\SignedRequest constructor expects string, mixed given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Parameter \\#1 \\$signature of method Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\SignedRequest\\:\\:authenticateSignature\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of class Rezzza\\\\SecurityBundle\\\\Security\\\\SignatureValidToken constructor expects Rezzza\\\\SecurityBundle\\\\Security\\\\SignatureValidUser, Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\UserInterface given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Parameter \\#1 \\$userIdentifier of class Symfony\\\\Component\\\\Security\\\\Http\\\\Authenticator\\\\Passport\\\\Badge\\\\UserBadge constructor expects string, mixed given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Parameter \\#2 \\$host of class Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\SignedRequest constructor expects string, mixed given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Parameter \\#5 \\$signatureTime of class Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\SignedRequest constructor expects int\\|null, mixed given\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Property Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\RequestSignatureListener\\:\\:\\$tokenStorage is never read, only written\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureListener.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\RequestSignatureProdiver\\:\\:loadUserByUsername\\(\\) has parameter \\$username with no type specified\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureProdiver.php
+
+		-
+			message: "#^Method Rezzza\\\\SecurityBundle\\\\Security\\\\Firewall\\\\RequestSignatureProdiver\\:\\:supportsClass\\(\\) has parameter \\$class with no type specified\\.$#"
+			count: 1
+			path: Security/Firewall/RequestSignatureProdiver.php

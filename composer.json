@@ -16,7 +16,8 @@
         "doctrine/common": "~2.2|~3.0"
     },
     "require-dev": {
-        "atoum/atoum": "~4.0"
+        "atoum/atoum": "~4.0",
+        "phpstan/phpstan": "^1.9"
     },
     "suggest": {
         "psr/http-message": "Required by \\Rezzza\\SecurityBundle\\Request\\Psr7RequestSigner"
