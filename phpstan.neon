@@ -1,0 +1,11 @@
+includes:
+    - phpstan-baseline.neon
+parameters:
+    level: max
+    paths:
+        - Controller
+        - DataCollector
+        - DependencyInjection
+        - Request
+        - Security
+    reportUnmatchedIgnoredErrors: true

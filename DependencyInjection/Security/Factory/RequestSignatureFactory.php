@@ -1,37 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\DependencyInjection\Security\Factory;
 
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 
-class RequestSignatureFactory implements SecurityFactoryInterface
+class RequestSignatureFactory implements AuthenticatorFactoryInterface
 {
-    public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
+    public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId): array|string
     {
-        $signatureQueryParametersId = $this->createSignatureQueryParameters($container, $id, $config);
-        $signatureConfigId = $this->createSignatureConfig($container, $id, $config);
-        $replayProtectionId = $this->createReplayProtection($container, $id, $config);
-        $providerId = 'security.authentication.provider.request_signature.'.$id;
+        $signatureQueryParametersId = $this->createSignatureQueryParameters($container, $firewallName, $config);
+        $signatureConfigId = $this->createSignatureConfig($container, $firewallName, $config);
+        $replayProtectionId = $this->createReplayProtection($container, $firewallName, $config);
 
-        $container
-            ->setDefinition($providerId, $this->createDefinition('rezzza.security.request_signature.provider'))
-            ->addArgument(new Reference($signatureConfigId))
-            ->addArgument(new Reference($replayProtectionId))
-        ;
-
-        $listenerId = 'security.authentication.listener.request_signature.'.$id;
+        $listenerId = 'security.authentication.listener.request_signature.'.$firewallName;
         $listener = $container
             ->setDefinition($listenerId, $this->createDefinition('rezzza.security.request_signature.listener'))
-            ->replaceArgument(2, new Reference($signatureQueryParametersId))
-            ->replaceArgument(3, $config['ignore'])
+            ->replaceArgument(1, new Reference($signatureQueryParametersId))
+            ->replaceArgument(2, $config['ignore'])
+            ->replaceArgument(3, new Reference($signatureConfigId))
+            ->replaceArgument(4, new Reference($replayProtectionId))
         ;
 
-        return array($providerId, $listenerId, $defaultEntryPoint);
+        return $listenerId;
     }
 
     public function getPosition()
@@ -39,14 +35,19 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         return 'pre_auth';
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return 'request_signature';
     }
 
-    public function createSignatureConfig($container, $id, $config)
+    public function getPriority(): int
     {
-        $signatureConfigId = 'rezzza.security.request_signature.signature_config.'.$id;
+        return 0;
+    }
+
+    public function createSignatureConfig(ContainerBuilder $container, string $firewallName, array $config): string
+    {
+        $signatureConfigId = 'rezzza.security.request_signature.signature_config.'.$firewallName;
         $container
             ->setDefinition($signatureConfigId, $this->createDefinition('rezzza.security.request_signature.signature_config'))
             ->addArgument($config['replay_protection']['enabled'])
@@ -57,9 +58,9 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         return $signatureConfigId;
     }
 
-    public function createSignatureQueryParameters($container, $id, $config)
+    public function createSignatureQueryParameters(ContainerBuilder $container, string $firewallName, array $config): string
     {
-        $signatureQueryParametersId = 'rezzza.security.request_signature.signature_query_parameters.'.$id;
+        $signatureQueryParametersId = 'rezzza.security.request_signature.signature_query_parameters.'.$firewallName;
         $container
             ->setDefinition($signatureQueryParametersId, $this->createDefinition('rezzza.security.request_signature.signature_query_parameters'))
             ->addArgument($config['parameter'])
@@ -69,9 +70,9 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         return $signatureQueryParametersId;
     }
 
-    public function createReplayProtection($container, $id, $config)
+    public function createReplayProtection(ContainerBuilder $container, string $firewallName, array $config): string
     {
-        $replayProtectionId = 'rezzza.security.request_signature.replay_protection.'.$id;
+        $replayProtectionId = 'rezzza.security.request_signature.replay_protection.'.$firewallName;
         $container
             ->setDefinition($replayProtectionId, $this->createDefinition('rezzza.security.request_signature.replay_protection'))
             ->addArgument($config['replay_protection']['enabled'])
@@ -81,7 +82,7 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         return $replayProtectionId;
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         $node->children()
             ->scalarNode('algorithm')->defaultValue('SHA1')->cannotBeEmpty()->end()
@@ -99,16 +100,8 @@ class RequestSignatureFactory implements SecurityFactoryInterface
         ;
     }
 
-    /**
-     * @param $serviceId
-     * @return ChildDefinition|DefinitionDecorator
-     */
-    private function createDefinition($serviceId)
+    private function createDefinition(string $serviceId): ChildDefinition
     {
-        if (class_exists('\Symfony\Component\DependencyInjection\ChildDefinition')) {
-            return new \Symfony\Component\DependencyInjection\ChildDefinition($serviceId);
-        } else {
-            return new \Symfony\Component\DependencyInjection\DefinitionDecorator($serviceId);
-        }
+        return new ChildDefinition($serviceId);
     }
 }

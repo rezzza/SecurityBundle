@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Request\Obfuscator;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
- * ObfuscatorInterface
+ * ObfuscatorInterface.
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */

@@ -1,25 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Security\Firewall;
 
 class SignatureQueryParameters
 {
-    private $nonceQueryParameter;
-
-    private $timeQueryParameter;
-
-    public function __construct($nonceQueryParameter, $timeQueryParameter)
+    public function __construct(private string $nonceQueryParameter, private string $timeQueryParameter)
     {
-        $this->nonceQueryParameter = $nonceQueryParameter;
-        $this->timeQueryParameter = $timeQueryParameter;
     }
 
-    public function getNonceQueryParameter()
+    public function getNonceQueryParameter(): string
     {
         return $this->nonceQueryParameter;
     }
 
-    public function getTimeQueryParameter()
+    public function getTimeQueryParameter(): string
     {
         return $this->timeQueryParameter;
     }

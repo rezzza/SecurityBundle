@@ -1,35 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Request;
 
+use Psr\Http\Message\RequestInterface;
 use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
 use Rezzza\SecurityBundle\Security\Firewall\SignedRequest;
-use Psr\Http\Message\RequestInterface;
 
 /**
- * Psr7RequestSigner
+ * Psr7RequestSigner.
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Psr7RequestSigner
 {
-    /** @var SignatureConfig */
-    private $signatureConfig;
-
-    /**
-     * @param SignatureConfig $signatureConfig signatureConfig
-     */
-    public function __construct(SignatureConfig $signatureConfig)
+    public function __construct(private SignatureConfig $signatureConfig)
     {
-        $this->signatureConfig = $signatureConfig;
     }
 
-    /**
-     * @param RequestInterface $request request
-     *
-     * @return RequestInterface
-     */
-    public function sign(RequestInterface $request)
+    public function sign(RequestInterface $request): RequestInterface
     {
         $replayProtectionEnabled = $this->signatureConfig->isReplayProtectionEnabled();
         $time = $replayProtectionEnabled ? time() + $this->signatureConfig->getTtl() : null;
@@ -39,7 +29,7 @@ class Psr7RequestSigner
             $request->getUri()->getHost(),
             $request->getUri()->getPath(),
             (string) $request->getBody(),
-            $time
+            $time,
         );
 
         $signature = $signedRequest->buildSignature($this->signatureConfig);

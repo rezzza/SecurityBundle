@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\Config\Definition\Processor;
-use Rezzza\SecurityBundle\Security\Firewall\Context;
-use Symfony\Component\DependencyInjection\Definition;
 use Rezzza\SecurityBundle\Security\Firewall\SignatureConfig;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * RezzzaSecurityExtension
+ * RezzzaSecurityExtension.
  *
  * @uses Extension
+ *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class RezzzaSecurityExtension extends Extension
@@ -22,7 +24,7 @@ class RezzzaSecurityExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $configuration = new Configuration();

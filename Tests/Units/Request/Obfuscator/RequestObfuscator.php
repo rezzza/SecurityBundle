@@ -1,96 +1,99 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Tests\Units\Request\Obfuscator;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Rezzza\SecurityBundle\Request\Obfuscator\RequestObfuscator as TestedClass;
 
 /**
- * RequestObfuscator
+ * RequestObfuscator.
  *
  * @uses atoum\test
+ *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class RequestObfuscator extends atoum\test
 {
     public function dataProviderObfuscate()
     {
-        return array(
+        return [
             // string on data.
-            //@ObfuscateRequest(content="*")
-            array(
-                array('content' => 'foo'),
-                array('content' => '*'),
-                array('content' => 'XXX')
-            ),
-            //@ObfuscateRequest(content=".")
-            array(
-                array('content' => 'foobar'),
-                array('content' => '.'),
-                array('content' => 'XXXXXX')
-            ),
-            //@ObfuscateRequest()
-            array(
-                array('content' => 'foobar'),
-                array(),
-                array('content' => 'foobar')
-            ),
-            //@ObfuscateRequest(otherkey="*")
-            array(
-                array('content' => 'foobar'),
-                array('otherkey' => '*'),
-                array('content' => 'foobar')
-            ),
+            // @ObfuscateRequest(content="*")
+            [
+                ['content' => 'foo'],
+                ['content' => '*'],
+                ['content' => 'XXX'],
+            ],
+            // @ObfuscateRequest(content=".")
+            [
+                ['content' => 'foobar'],
+                ['content' => '.'],
+                ['content' => 'XXXXXX'],
+            ],
+            // @ObfuscateRequest()
+            [
+                ['content' => 'foobar'],
+                [],
+                ['content' => 'foobar'],
+            ],
+            // @ObfuscateRequest(otherkey="*")
+            [
+                ['content' => 'foobar'],
+                ['otherkey' => '*'],
+                ['content' => 'foobar'],
+            ],
             // array on data, simple patterns
-            //@ObfuscateRequest(content="*")
-            array(
-                array('content' => array('key1' => 'foo', 'key2' => 'bar')),
-                array('content' => '*'),
-                array('content' => 'X')
-            ),
-            //@ObfuscateRequest(content="key1")
-            array(
-                array('content' => array('key1' => 'foo', 'key2' => 'bar')),
-                array('content' => 'key1'),
-                array('content' => array('key1' => 'XXX', 'key2' => 'bar'))
-            ),
-            //@ObfuscateRequest(content={"key1"})
-            array(
-                array('content' => array('key1' => array('foo' => 'pouet'), 'key2' => 'bar')),
-                array('content' => array('key1')),
-                array('content' => array('key1' => 'X', 'key2' => 'bar'))
-            ),
-            //@ObfuscateRequest(content={"key1", "key2"})
-            array(
-                array('content' => array('key1' => array('foo' => 'pouet'), 'key2' => 'bar')),
-                array('content' => array('key1', 'key2')),
-                array('content' => array('key1' => 'X', 'key2' => 'XXX'))
-            ),
-            //@ObfuscateRequest(content={"key1[key2]"})
-            array(
-                array('content' => array('key1' => array('key2' => 'pouet'), 'key2' => 'bar')),
-                array('content' => array('key1[key2]')),
-                array('content' => array('key1' => array('key2' => 'XXXXX'), 'key2' => 'bar'))
-            ),
-            //@ObfuscateRequest(content={"key1[key2][key3]"})
-            array(
-                array('content' => array('key1' => array('key2' => array('key3' => 'foo')))),
-                array('content' => array('key1[key2][key3]')),
-                array('content' => array('key1' => array('key2' => array('key3' => 'XXX')))),
-            ),
-            //@ObfuscateRequest(content={"key1[*]"})
-            array(
-                array('content' => array('key1' => array('key2' => array('key3' => 'foo')))),
-                array('content' => array('key1[*]')),
-                array('content' => array('key1' => 'X')),
-            ),
-        );
+            // @ObfuscateRequest(content="*")
+            [
+                ['content' => ['key1' => 'foo', 'key2' => 'bar']],
+                ['content' => '*'],
+                ['content' => 'X'],
+            ],
+            // @ObfuscateRequest(content="key1")
+            [
+                ['content' => ['key1' => 'foo', 'key2' => 'bar']],
+                ['content' => 'key1'],
+                ['content' => ['key1' => 'XXX', 'key2' => 'bar']],
+            ],
+            // @ObfuscateRequest(content={"key1"})
+            [
+                ['content' => ['key1' => ['foo' => 'pouet'], 'key2' => 'bar']],
+                ['content' => ['key1']],
+                ['content' => ['key1' => 'X', 'key2' => 'bar']],
+            ],
+            // @ObfuscateRequest(content={"key1", "key2"})
+            [
+                ['content' => ['key1' => ['foo' => 'pouet'], 'key2' => 'bar']],
+                ['content' => ['key1', 'key2']],
+                ['content' => ['key1' => 'X', 'key2' => 'XXX']],
+            ],
+            // @ObfuscateRequest(content={"key1[key2]"})
+            [
+                ['content' => ['key1' => ['key2' => 'pouet'], 'key2' => 'bar']],
+                ['content' => ['key1[key2]']],
+                ['content' => ['key1' => ['key2' => 'XXXXX'], 'key2' => 'bar']],
+            ],
+            // @ObfuscateRequest(content={"key1[key2][key3]"})
+            [
+                ['content' => ['key1' => ['key2' => ['key3' => 'foo']]]],
+                ['content' => ['key1[key2][key3]']],
+                ['content' => ['key1' => ['key2' => ['key3' => 'XXX']]]],
+            ],
+            // @ObfuscateRequest(content={"key1[*]"})
+            [
+                ['content' => ['key1' => ['key2' => ['key3' => 'foo']]]],
+                ['content' => ['key1[*]']],
+                ['content' => ['key1' => 'X']],
+            ],
+        ];
     }
 
     /**
      * @dataProvider dataProviderObfuscate
      */
-    public function testObfuscate(array $data, array $patterns, array $expectedData)
+    public function testObfuscate(array $data, array $patterns, array $expectedData): void
     {
         $this->if($obfuscator = new TestedClass())
             ->array($obfuscator->obfuscate($data, $patterns))

@@ -1,32 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rezzza\SecurityBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
-/**
- * RequestSignatureToken
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class SignatureValidToken extends AbstractToken
 {
-    public $signature;
-
-    public $signatureTime;
-
-    public function __construct($signature, $signatureTime, array $roles = array())
+    public function __construct(SignatureValidUser $user)
     {
-        parent::__construct($roles);
-        $this->signature = $signature;
-        $this->signatureTime = $signatureTime;
-        $this->setAuthenticated(true);
+        $this->setUser($user);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCredentials()
+    public function getCredentials(): string
     {
         return '';
     }

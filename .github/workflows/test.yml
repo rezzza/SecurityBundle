@@ -1,0 +1,33 @@
+on: push
+name: test
+
+jobs:
+  php-cs-fixer:
+    name: PHP Coding Standards Fixer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Php cs fixer
+        uses: fulll/actions/php-cs-fixer@master
+
+  phpstan:
+    name: PHPStan Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Add HTTP basic auth credentials
+        run: echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
+      - name: Install dependencies
+        uses: php-actions/composer@v5
+        with:
+          php_version: 8.0
+          args: --no-scripts
+      - name: PHPStan Static Analysis
+        uses: php-actions/phpstan@v3
+        with:
+          version: 1.9.4
+          memory_limit: 1G
+          php_version: 8.0
+          args: --error-format=github
