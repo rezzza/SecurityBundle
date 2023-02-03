@@ -20,7 +20,7 @@ class RequestSignatureProdiver implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return new SignatureValidUser();
+        throw new \LogicException(sprintf('Method %s should never be called.', __METHOD__));
     }
 
     /**
