@@ -7,6 +7,8 @@ This bundle is a fork of [rezzza/SecurityBundle](https://github.com/rezzza/Secur
 
 :warning: **The last version is only available from Symfony 5.**
 
+If you are using an older version, the default branch is the [v5 branch](https://github.com/fulll/security-bundle/tree/v5) for backward compatibility.
+
 Symfony Security has introduced a new security system in Symfony 5.3.
 In Symfony 6 the legacy system is removed in favor of this system.
 
